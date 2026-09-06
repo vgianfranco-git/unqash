@@ -65,7 +65,7 @@ function VentaForm() {
         cantidad: Number(form.cantidad),
         idTipoCobro: form.idTipoCobro,
       })
-      notificationService.success('Venta registrada con éxito.')
+      notificationService.success('Operación registrada con éxito.')
       setForm(initialForm)
       setErrors({})
     } catch (error) {
