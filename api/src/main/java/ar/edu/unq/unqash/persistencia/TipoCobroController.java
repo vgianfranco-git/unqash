@@ -19,7 +19,7 @@ public class TipoCobroController {
     @GetMapping
     public List<TipoCobroResponse> listar() {
         return tipoCobroRepository.findAllByOrderByDescripcionAsc().stream()
-                .map(tipo -> new TipoCobroResponse(tipo.cId(), tipo.descripcion()))
+                .map(tipo -> new TipoCobroResponse(tipo.id(), tipo.descripcion()))
                 .toList();
     }
 }

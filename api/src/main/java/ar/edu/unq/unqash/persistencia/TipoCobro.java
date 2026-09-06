@@ -13,7 +13,7 @@ public class TipoCobro {
 
     @Id
     @Column(name = "C_ID", nullable = false)
-    private UUID cId;
+    private UUID id;
 
     @Column(name = "D_DESCRIPCION", nullable = false, unique = true)
     private String descripcion;
@@ -21,13 +21,13 @@ public class TipoCobro {
     protected TipoCobro() {
     }
 
-    public TipoCobro(UUID cId, String descripcion) {
-        this.cId = cId;
+    public TipoCobro(UUID id, String descripcion) {
+        this.id = id;
         this.descripcion = descripcion;
     }
 
-    public UUID cId() {
-        return cId;
+    public UUID id() {
+        return id;
     }
 
     public String descripcion() {

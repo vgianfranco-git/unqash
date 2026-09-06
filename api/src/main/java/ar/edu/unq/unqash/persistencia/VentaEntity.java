@@ -17,7 +17,7 @@ public class VentaEntity {
 
     @Id
     @Column(name = "C_ID", nullable = false)
-    private UUID cId;
+    private UUID id;
 
     @Column(name = "D_PRODUCTO", nullable = false)
     private String producto;
@@ -35,16 +35,16 @@ public class VentaEntity {
     protected VentaEntity() {
     }
 
-    public VentaEntity(UUID cId, String producto, BigDecimal monto, Integer cantidad, TipoCobro tipoDeCobro) {
-        this.cId = cId;
+    public VentaEntity(UUID id, String producto, BigDecimal monto, Integer cantidad, TipoCobro tipoDeCobro) {
+        this.id = id;
         this.producto = producto;
         this.monto = monto;
         this.cantidad = cantidad;
         this.tipoDeCobro = tipoDeCobro;
     }
 
-    public UUID cId() {
-        return cId;
+    public UUID id() {
+        return id;
     }
 
     public TipoCobro tipoDeCobro() {

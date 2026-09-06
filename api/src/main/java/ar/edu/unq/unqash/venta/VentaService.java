@@ -21,7 +21,7 @@ public class VentaService {
 
     public Venta registrar(VentaRequest request) {
         validarCamposObligatorios(request);
-        TipoCobro tipoDeCobro = tipoCobroRepository.findById(request.cIdTipoCobro())
+        TipoCobro tipoDeCobro = tipoCobroRepository.findById(request.idTipoCobro())
                 .orElseThrow(() -> new IllegalArgumentException("tipo de cobro inexistente"));
         UUID ventaId = UUID.randomUUID();
         ventaRepository.save(new VentaEntity(
@@ -38,7 +38,7 @@ public class VentaService {
                 request.monto(),
                 request.cantidad(),
                 request.monto(),
-                request.cIdTipoCobro()
+                request.idTipoCobro()
         );
     }
 
@@ -52,7 +52,7 @@ public class VentaService {
         if (request.cantidad() == null) {
             throw new IllegalArgumentException("cantidad es obligatoria");
         }
-        if (request.cIdTipoCobro() == null) {
+        if (request.idTipoCobro() == null) {
             throw new IllegalArgumentException("tipo de cobro es obligatorio");
         }
     }

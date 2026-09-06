@@ -35,15 +35,15 @@ class VentaControllerTest {
         mockMvc.perform(post("/ventas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                {"producto":"Café","monto":2500,"cantidad":2,"C_ID_TIPO_COBRO":"%s"}
+                                {"producto":"Café","monto":2500,"cantidad":2,"idTipoCobro":"%s"}
                                 """.formatted(EFECTIVO_ID)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.C_ID").isNotEmpty())
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.producto").value("Café"))
                 .andExpect(jsonPath("$.monto").value(2500))
                 .andExpect(jsonPath("$.cantidad").value(2))
                 .andExpect(jsonPath("$.total").value(2500))
-                .andExpect(jsonPath("$.C_ID_TIPO_COBRO").value(EFECTIVO_ID.toString()));
+                .andExpect(jsonPath("$.idTipoCobro").value(EFECTIVO_ID.toString()));
     }
 
     @Test
@@ -61,7 +61,7 @@ class VentaControllerTest {
         mockMvc.perform(post("/ventas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                {"producto":"Café","monto":2500,"cantidad":2,"C_ID_TIPO_COBRO":"11111111-1111-1111-1111-111111111111"}
+                                {"producto":"Café","monto":2500,"cantidad":2,"idTipoCobro":"11111111-1111-1111-1111-111111111111"}
                                 """))
                 .andExpect(status().isBadRequest());
     }
