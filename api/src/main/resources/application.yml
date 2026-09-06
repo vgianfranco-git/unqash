@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: ${UNQASH_DB_URL:jdbc:postgresql://localhost:5432/unqash}
+    username: ${UNQASH_DB_USERNAME:unqash}
+    password: ${UNQASH_DB_PASSWORD:unqash}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
