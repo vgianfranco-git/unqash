@@ -35,9 +35,9 @@ class PersistenciaVentaTest {
                 tipoDeCobro
         ));
 
-        assertThat(ventaRepository.findById(venta.cId()))
+        assertThat(ventaRepository.findById(venta.id()))
                 .hasValueSatisfying(ventaGuardada ->
-                        assertThat(ventaGuardada.tipoDeCobro().cId()).isEqualTo(tipoDeCobro.cId())
+                        assertThat(ventaGuardada.tipoDeCobro().id()).isEqualTo(tipoDeCobro.id())
                 );
     }
 }

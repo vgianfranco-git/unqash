@@ -26,13 +26,13 @@ class VentaServiceTest {
     void registraUnaVentaConTipoDeCobro() {
         Venta venta = service.registrar(new VentaRequest("Café", new BigDecimal("2500"), 2, EFECTIVO_ID));
 
-        assertThat(venta.cId()).isNotBlank();
+        assertThat(venta.id()).isNotBlank();
         assertThat(venta.producto()).isEqualTo("Café");
         assertThat(venta.monto()).isEqualByComparingTo("2500");
         assertThat(venta.cantidad()).isEqualTo(2);
         assertThat(venta.total()).isEqualByComparingTo("2500");
-        assertThat(venta.cIdTipoCobro()).isEqualTo(EFECTIVO_ID);
-        assertThat(ventaRepository.findById(UUID.fromString(venta.cId()))).isPresent();
+        assertThat(venta.idTipoCobro()).isEqualTo(EFECTIVO_ID);
+        assertThat(ventaRepository.findById(UUID.fromString(venta.id()))).isPresent();
     }
 
     @Test
