@@ -1,7 +1,7 @@
-import ComingSoon from '../components/ui/ComingSoon'
+import VentaForm from '../components/features/VentaForm'
 
 function HomePage() {
-  return <ComingSoon title="Ventas" />
+  return <VentaForm />
 }
 
 export default HomePage
