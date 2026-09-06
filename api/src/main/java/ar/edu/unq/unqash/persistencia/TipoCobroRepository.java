@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TipoCobroRepository extends JpaRepository<TipoCobro, UUID> {
 
-    List<TipoCobro> findAllByOrderByDescripcionAsc();
+    List<TipoCobro> findAllByOrderByIdAsc();
 }
