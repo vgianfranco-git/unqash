@@ -5,4 +5,10 @@
   --color-green-medium: #9fb59f;
   --color-green-light: #e8f5ee;
   --color-background: #f5faf6;
+
+  --font-sans: 'Encode Sans Variable', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
 }
