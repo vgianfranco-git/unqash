@@ -83,7 +83,7 @@ function VentaForm() {
         <TextInput
           id="producto"
           label="Producto / Concepto"
-          placeholder="Ej. Combo cafe + medialunas"
+          placeholder="Ej. Combo café + medialuna"
           maxLength={MAX_PRODUCTO_LENGTH}
           value={form.producto}
           disabled={isSubmitting}
