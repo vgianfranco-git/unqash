@@ -1,5 +1,7 @@
+import ComingSoon from '../components/ui/ComingSoon'
+
 function HomePage() {
-  return <h1>Unqash</h1>
+  return <ComingSoon title="Ventas" />
 }
 
 export default HomePage
