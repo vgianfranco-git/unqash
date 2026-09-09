@@ -71,7 +71,7 @@ public class VentaService {
         int pageSize = 3; //limit
         validarCamposPaginacion(page);
 
-        Sort sort = Sort.by("fecha").descending();
+        Sort sort = Sort.by("fechaHora").descending();
         Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
 
         return ventaRepository.findAll(pageable);

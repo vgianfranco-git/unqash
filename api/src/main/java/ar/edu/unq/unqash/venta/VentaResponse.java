@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 import java.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -14,27 +15,30 @@ public record VentaResponse(
                                String producto,
                                BigDecimal monto,
                                String tipoCobro,
-                               String fecha,
-                               String hora
+                               String fechaHora
 ) {
 
     public static VentaResponse desdeModelo(VentaEntity v) {
 
-        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm a");
+//        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm a");
+//
+//        String fecha = v.getFecha() != null ? v.getFecha().format(formatoFecha) :
+//                LocalDate.now().format(formatoFecha);
+//
+//        String hora = v.getHora() != null ? v.getHora().format(formatoHora) :
+//                LocalTime.now().format(formatoHora);
 
-        String fecha = v.getFecha() != null ? v.getFecha().format(formatoFecha) :
-                LocalDate.now().format(formatoFecha);
+        DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
 
-        String hora = v.getHora() != null ? v.getHora().format(formatoHora) :
-                LocalTime.now().format(formatoHora);
+        String fechaHora = v.getFechaHora() != null ? v.getFechaHora().format(formatoFechaHora) :
+                LocalDateTime.now().format(formatoFechaHora);
 
         return new VentaResponse(
                 v.getProducto(),
                 v.getMonto(),
                 v.tipoDeCobro().descripcion(),
-                fecha,
-                hora
+                fechaHora
         );
     }
 }
