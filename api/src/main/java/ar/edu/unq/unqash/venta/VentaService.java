@@ -1,5 +1,6 @@
 package ar.edu.unq.unqash.venta;
 
+import java.util.List;
 import java.util.UUID;
 
 import ar.edu.unq.unqash.persistencia.TipoCobro;
@@ -56,4 +57,9 @@ public class VentaService {
             throw new IllegalArgumentException("tipo de cobro es obligatorio");
         }
     }
+
+    public List<VentaEntity> recuperarTodas() {
+        return ventaRepository.findAll();
+    }
+
 }

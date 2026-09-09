@@ -1,6 +1,8 @@
 package ar.edu.unq.unqash.persistencia;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -32,6 +34,12 @@ public class VentaEntity {
     @JoinColumn(name = "C_ID_TIPO_COBRO", nullable = false)
     private TipoCobro tipoDeCobro;
 
+
+    @Column(name = "FECHA", nullable = false)
+    private LocalDate fecha;
+    @Column(name = "HORA", nullable = false)
+    private LocalTime hora;
+
     protected VentaEntity() {
     }
 
@@ -41,6 +49,8 @@ public class VentaEntity {
         this.monto = monto;
         this.cantidad = cantidad;
         this.tipoDeCobro = tipoDeCobro;
+        fecha = LocalDate.now();
+        hora = LocalTime.now();
     }
 
     public UUID id() {
@@ -49,5 +59,33 @@ public class VentaEntity {
 
     public TipoCobro tipoDeCobro() {
         return tipoDeCobro;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public TipoCobro getTipoDeCobro() {
+        return tipoDeCobro;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public LocalTime getHora() {
+        return hora;
     }
 }
