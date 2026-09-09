@@ -2,7 +2,7 @@ import { Minus, Plus } from 'lucide-react'
 import { formatCurrency } from '../../utils/currency'
 import type { OperacionCardProps } from '../../types/components/OperacionCardProps'
 
-function OperacionCard({ producto, fecha, tipoCobro, monto, tipo, anulando, onAnular }: OperacionCardProps) {
+function OperacionCard({ producto, fecha, tipoCobro, monto, tipo, puedeAnular, anulando, onAnular }: OperacionCardProps) {
   const esAnulacion = tipo === 'anulacion'
 
   return (
@@ -28,7 +28,7 @@ function OperacionCard({ producto, fecha, tipoCobro, monto, tipo, anulando, onAn
           {esAnulacion ? '-' : ''}
           {formatCurrency(monto)}
         </span>
-        {!esAnulacion && (
+        {puedeAnular && (
           <button
             type="button"
             disabled={anulando}
