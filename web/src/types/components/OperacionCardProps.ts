@@ -6,6 +6,7 @@ export interface OperacionCardProps {
   tipoCobro: string
   monto: number
   tipo: OperacionTipo
+  puedeAnular: boolean
   anulando?: boolean
   onAnular?: () => void
 }
