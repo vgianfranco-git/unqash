@@ -20,16 +20,7 @@ public record VentaResponse(
 
     public static VentaResponse desdeModelo(VentaEntity v) {
 
-//        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm a");
-//
-//        String fecha = v.getFecha() != null ? v.getFecha().format(formatoFecha) :
-//                LocalDate.now().format(formatoFecha);
-//
-//        String hora = v.getHora() != null ? v.getHora().format(formatoHora) :
-//                LocalTime.now().format(formatoHora);
-
-        DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
+        DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("dd/MM/yyyy, hh:mm a");
 
         String fechaHora = v.getFechaHora() != null ? v.getFechaHora().format(formatoFechaHora) :
                 LocalDateTime.now().format(formatoFechaHora);
