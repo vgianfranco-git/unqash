@@ -1,11 +1,17 @@
 package ar.edu.unq.unqash.venta;
 
+
+import java.util.List;
 import java.util.UUID;
 
 import ar.edu.unq.unqash.persistencia.TipoCobro;
 import ar.edu.unq.unqash.persistencia.TipoCobroRepository;
 import ar.edu.unq.unqash.persistencia.VentaEntity;
 import ar.edu.unq.unqash.persistencia.VentaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -56,4 +62,23 @@ public class VentaService {
             throw new IllegalArgumentException("tipo de cobro es obligatorio");
         }
     }
+
+    public List<VentaEntity> recuperarTodas() {
+        return ventaRepository.findAll();
+    }
+
+    public Page<VentaEntity> recuperarTodasPagina(int page){
+        int pageSize = 3; //limit
+        validarCamposPaginacion(page);
+
+        Sort sort = Sort.by("fechaHora").descending();
+        Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
+
+        return ventaRepository.findAll(pageable);
+    }
+
+    private void validarCamposPaginacion(int page) {
+        if(page < 1) throw new IllegalArgumentException("El número de página debe ser mayor a 0.");
+    }
+
 }
