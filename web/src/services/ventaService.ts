@@ -6,4 +6,7 @@ export const ventaService = {
     const { data } = await api.post<VentaType>('/ventas', venta)
     return data
   },
+  anular: async (id: string): Promise<void> => {
+    await api.post(`/ventas/${id}/anular`)
+  },
 }
