@@ -13,3 +13,16 @@ export interface VentaType {
   total: number
   idTipoCobro: string
 }
+
+export interface VentaHistorialType {
+  producto: string
+  monto: number
+  tipoCobro: string
+  fechaHora: string
+}
+
+export interface VentaHistorialPageType {
+  ventas: VentaHistorialType[]
+  numPag: number
+  totalPag: number
+}

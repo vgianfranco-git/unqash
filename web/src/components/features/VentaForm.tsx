@@ -10,6 +10,7 @@ import { notificationService, handleApiError } from '../../services/notification
 import { formatCurrency } from '../../utils/currency'
 import type { TipoCobroType } from '../../types/services/TipoCobroType'
 import type { VentaFormErrors } from '../../types/forms/VentaFormErrors'
+import type { VentaFormProps } from '../../types/components/VentaFormProps'
 
 const initialForm = {
   producto: '',
@@ -22,7 +23,7 @@ const MAX_PRODUCTO_LENGTH = 100
 const MAX_MONTO = 99_999_999
 const MAX_CANTIDAD = 9999
 
-function VentaForm() {
+function VentaForm({ onVentaRegistrada }: VentaFormProps) {
   const [tiposCobro, setTiposCobro] = useState<TipoCobroType[]>([])
   const [form, setForm] = useState(initialForm)
   const [errors, setErrors] = useState<VentaFormErrors>({})
@@ -68,6 +69,7 @@ function VentaForm() {
       notificationService.success('Operación registrada con éxito.')
       setForm(initialForm)
       setErrors({})
+      onVentaRegistrada?.()
     } catch (error) {
       notificationService.error(handleApiError(error, 'No se pudo registrar la venta.'))
     } finally {
