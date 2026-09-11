@@ -82,11 +82,10 @@ public class VentaService {
         if(page < 1) throw new IllegalArgumentException("El número de página debe ser mayor a 0.");
     }
 
-    public VentaResponse anularVenta(UUID ventaId){
-        VentaEntity venta = ventaRepository.findById(ventaId).orElseThrow(() -> new IllegalArgumentException("Venta " +
-                "no encontrada"));
+    public VentaEntity anularVenta(UUID ventaId){
+        VentaEntity venta = ventaRepository.findById(ventaId).orElseThrow(() -> new IllegalArgumentException("Venta no encontrada"));
 
-        validarVentaAnulada(venta.getMonto());
+        validarVentaAnulada(venta);
 
         UUID ventaAnuladaId = UUID.randomUUID();
 
@@ -95,22 +94,21 @@ public class VentaService {
                 venta.getProducto(),
                 venta.getMonto().negate(),
                 venta.getCantidad(),
-                venta.tipoDeCobro()
+                venta.tipoDeCobro(),
+                venta.getId()
         );
 
         ventaRepository.save(ventaAnulada);
 
-        return new VentaResponse(
-                ventaId,
-                ventaAnulada.getProducto(),
-                ventaAnulada.getMonto(),
-                ventaAnulada.getTipoDeCobro().descripcion(),
-                venta.getFechaHora().toString()
-        );
+        venta.setVentaAnuladaId(ventaAnuladaId);
+        ventaRepository.save(venta);
+
+        return ventaAnulada;
     }
 
-    private void validarVentaAnulada(BigDecimal monto) {
-        if(monto.compareTo(BigDecimal.ZERO) < 0) throw new IllegalArgumentException("La venta ya fue anulada");
+    private void validarVentaAnulada(VentaEntity venta) {
+        if(venta.getMonto().compareTo(BigDecimal.ZERO) < 0) throw new IllegalArgumentException("La venta ya fue anulada");
+        if(venta.getVentaAnuladaId() != null) throw new IllegalArgumentException("La venta ya fue anulada");
 
     }
 

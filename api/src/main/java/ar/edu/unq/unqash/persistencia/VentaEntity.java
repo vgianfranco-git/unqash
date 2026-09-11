@@ -38,6 +38,9 @@ public class VentaEntity {
     @Column(name = "FECHAHORA", nullable = false)
     private LocalDateTime fechaHora;
 
+    @Column(name = "ANULACIONID", nullable = true)
+    private UUID ventaAnuladaId;
+
     protected VentaEntity() {
     }
 
@@ -49,6 +52,18 @@ public class VentaEntity {
         this.tipoDeCobro = tipoDeCobro;
         fechaHora = LocalDateTime.now();
     }
+
+    public VentaEntity(UUID id, String producto, BigDecimal monto, Integer cantidad, TipoCobro tipoDeCobro,
+                       UUID ventaAnuladaId) {
+        this.id = id;
+        this.producto = producto;
+        this.monto = monto;
+        this.cantidad = cantidad;
+        this.tipoDeCobro = tipoDeCobro;
+        fechaHora = LocalDateTime.now();
+        this.ventaAnuladaId = ventaAnuladaId;
+    }
+
 
     public UUID id() {
         return id;
@@ -82,4 +97,11 @@ public class VentaEntity {
         return fechaHora;
     }
 
+    public UUID getVentaAnuladaId() {
+        return ventaAnuladaId;
+    }
+
+    public void setVentaAnuladaId(UUID ventaAnuladaId) {
+        this.ventaAnuladaId = ventaAnuladaId;
+    }
 }

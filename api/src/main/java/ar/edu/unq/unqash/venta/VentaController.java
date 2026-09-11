@@ -51,7 +51,7 @@ public class VentaController {
 
     @PostMapping("/{id}/anular")
     public ResponseEntity<VentaResponse> anularVenta(@PathVariable UUID id){ //Cambiar a venta
-        VentaResponse ventaAnulada = ventaService.anularVenta(id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ventaAnulada);
+        VentaEntity ventaAnulada = ventaService.anularVenta(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(VentaResponse.desdeModelo(ventaAnulada));
     }
 }
