@@ -1,6 +1,7 @@
 package ar.edu.unq.unqash.venta;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,6 +80,38 @@ public class VentaService {
 
     private void validarCamposPaginacion(int page) {
         if(page < 1) throw new IllegalArgumentException("El número de página debe ser mayor a 0.");
+    }
+
+    public VentaResponse anularVenta(UUID ventaId){
+        VentaEntity venta = ventaRepository.findById(ventaId).orElseThrow(() -> new IllegalArgumentException("Venta " +
+                "no encontrada"));
+
+        validarVentaAnulada(venta.getMonto());
+
+        UUID ventaAnuladaId = UUID.randomUUID();
+
+        VentaEntity ventaAnulada = new VentaEntity(
+                ventaAnuladaId,
+                venta.getProducto(),
+                venta.getMonto().negate(),
+                venta.getCantidad(),
+                venta.tipoDeCobro()
+        );
+
+        ventaRepository.save(ventaAnulada);
+
+        return new VentaResponse(
+                ventaId,
+                ventaAnulada.getProducto(),
+                ventaAnulada.getMonto(),
+                ventaAnulada.getTipoDeCobro().descripcion(),
+                venta.getFechaHora().toString()
+        );
+    }
+
+    private void validarVentaAnulada(BigDecimal monto) {
+        if(monto.compareTo(BigDecimal.ZERO) < 0) throw new IllegalArgumentException("La venta ya fue anulada");
+
     }
 
 }

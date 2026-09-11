@@ -9,13 +9,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 
 public record VentaResponse(
-                               String producto,
-                               BigDecimal monto,
-                               String tipoCobro,
-                               String fechaHora
+        UUID id,
+        String producto,
+        BigDecimal monto,
+        String tipoCobro,
+        String fechaHora
 ) {
 
     public static VentaResponse desdeModelo(VentaEntity v) {
@@ -26,6 +28,7 @@ public record VentaResponse(
                 LocalDateTime.now().format(formatoFechaHora);
 
         return new VentaResponse(
+                v.getId(),
                 v.getProducto(),
                 v.getMonto(),
                 v.tipoDeCobro().descripcion(),
