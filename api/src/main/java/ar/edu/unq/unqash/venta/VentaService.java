@@ -94,8 +94,7 @@ public class VentaService {
                 venta.getProducto(),
                 venta.getMonto().negate(),
                 venta.getCantidad(),
-                venta.tipoDeCobro(),
-                venta.getId()
+                venta.tipoDeCobro()
         );
 
         ventaRepository.save(ventaAnulada);

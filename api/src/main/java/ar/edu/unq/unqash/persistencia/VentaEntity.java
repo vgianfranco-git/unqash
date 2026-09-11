@@ -53,16 +53,6 @@ public class VentaEntity {
         fechaHora = LocalDateTime.now();
     }
 
-    public VentaEntity(UUID id, String producto, BigDecimal monto, Integer cantidad, TipoCobro tipoDeCobro,
-                       UUID ventaAnuladaId) {
-        this.id = id;
-        this.producto = producto;
-        this.monto = monto;
-        this.cantidad = cantidad;
-        this.tipoDeCobro = tipoDeCobro;
-        fechaHora = LocalDateTime.now();
-        this.ventaAnuladaId = ventaAnuladaId;
-    }
 
 
     public UUID id() {
