@@ -13,11 +13,12 @@ import java.util.UUID;
 
 
 public record VentaResponse(
-                                UUID id,
-                               String producto,
-                               BigDecimal monto,
-                               String tipoCobro,
-                               String fechaHora
+        UUID id,
+        String producto,
+        BigDecimal monto,
+        String tipoCobro,
+        String fechaHora,
+        UUID idAnulada
 ) {
 
     public static VentaResponse desdeModelo(VentaEntity v) {
@@ -27,12 +28,15 @@ public record VentaResponse(
         String fechaHora = v.getFechaHora() != null ? v.getFechaHora().format(formatoFechaHora) :
                 LocalDateTime.now().format(formatoFechaHora);
 
+
+
         return new VentaResponse(
                 v.getId(),
                 v.getProducto(),
                 v.getMonto(),
                 v.tipoDeCobro().descripcion(),
-                fechaHora
+                fechaHora,
+                v.getVentaAnuladaId()
         );
     }
 }
