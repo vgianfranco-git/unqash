@@ -15,10 +15,12 @@ export interface VentaType {
 }
 
 export interface VentaHistorialType {
+  id: string
   producto: string
   monto: number
   tipoCobro: string
   fechaHora: string
+  idAnulada: string | null
 }
 
 export interface VentaHistorialPageType {
