@@ -11,10 +11,11 @@ function ListadoCargas({ refreshKey }: ListadoCargasProps) {
   const [ventas, setVentas] = useState<VentaHistorialType[]>([])
   const [totalPages, setTotalPages] = useState(1)
   const [cargando, setCargando] = useState(true)
+  const [anulandoId, setAnulandoId] = useState<string | null>(null)
 
-  useEffect(() => {
+  const cargarPagina = () => {
     setCargando(true)
-    ventaService
+    return ventaService
       .listar(page)
       .then((respuesta) => {
         setVentas(respuesta.ventas)
@@ -22,7 +23,24 @@ function ListadoCargas({ refreshKey }: ListadoCargasProps) {
       })
       .catch((error) => notificationService.error(handleApiError(error, 'No se pudo cargar el historial de ventas.')))
       .finally(() => setCargando(false))
+  }
+
+  useEffect(() => {
+    cargarPagina()
   }, [page, refreshKey])
+
+  const handleAnular = async (id: string) => {
+    setAnulandoId(id)
+    try {
+      await ventaService.anular(id)
+      await cargarPagina()
+      notificationService.success('Operación anulada con éxito.')
+    } catch (error) {
+      notificationService.error(handleApiError(error, 'No se pudo anular la operación.'))
+    } finally {
+      setAnulandoId(null)
+    }
+  }
 
   return (
     <div className="flex flex-col gap-3">
@@ -33,16 +51,17 @@ function ListadoCargas({ refreshKey }: ListadoCargasProps) {
       ) : ventas.length === 0 ? (
         <p className="text-center text-sm text-gray-500">Todavía no registraste ninguna operación.</p>
       ) : (
-        ventas.map((venta, index) => (
+        ventas.map((venta) => (
           <OperacionCard
-            key={`${venta.fechaHora}-${index}`}
+            key={venta.id}
             producto={venta.producto}
             fecha={venta.fechaHora}
             tipoCobro={venta.tipoCobro}
-            monto={venta.monto}
-            tipo="ingreso"
-            // TODO(SCRUM-43): habilitar cuando el backend exponga id y estado por venta en VentaResponse
-            puedeAnular={false}
+            monto={Math.abs(venta.monto)}
+            tipo={venta.monto < 0 ? 'anulacion' : 'ingreso'}
+            puedeAnular={venta.monto > 0 && venta.idAnulada === null}
+            anulando={anulandoId === venta.id}
+            onAnular={() => handleAnular(venta.id)}
           />
         ))
       )}
