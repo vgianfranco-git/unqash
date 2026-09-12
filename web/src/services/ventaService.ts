@@ -1,5 +1,5 @@
 import { api } from './api'
-import type { VentaHistorialPageType, VentaRequestType, VentaType } from '../types/services/VentaType'
+import type { VentaHistorialPageType, VentaHistorialType, VentaRequestType, VentaType } from '../types/services/VentaType'
 
 export const ventaService = {
   crear: async (venta: VentaRequestType): Promise<VentaType> => {
@@ -10,7 +10,8 @@ export const ventaService = {
     const { data } = await api.get<VentaHistorialPageType>('/ventas', { params: { page } })
     return data
   },
-  anular: async (id: string): Promise<void> => {
-    await api.post(`/ventas/${id}/anular`)
+  anular: async (id: string): Promise<VentaHistorialType> => {
+    const { data } = await api.post<VentaHistorialType>(`/ventas/${id}/anular`)
+    return data
   },
 }
