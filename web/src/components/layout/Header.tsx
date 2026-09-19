@@ -3,11 +3,11 @@ import NavItem from '../ui/NavItem'
 // import LogoutButton from '../ui/LogoutButton'
 import type { NavTab } from '../../types/layout/NavTab'
 
-// Tabs habilitadas. A medida que se implementen las pantallas de Gestión y
-// Facturas, se descomentan sus entradas y aparecen automáticamente en el nav.
+// Tabs habilitadas. A medida que se implementen nuevas pantallas, se agregan
+// sus entradas y aparecen automáticamente en el nav.
 const NAV_TABS: NavTab[] = [
   { label: 'Ventas', path: '/' },
-  // { label: 'Gestión', path: '/gestion' },
+  { label: 'Gestión', path: '/gestion' },
   // { label: 'Facturas', path: '/facturas' },
 ]
 

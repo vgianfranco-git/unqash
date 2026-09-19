@@ -1,7 +1,7 @@
-import ComingSoon from '../components/ui/ComingSoon'
+import UsuarioForm from '../components/features/UsuarioForm'
 
 function GestionPage() {
-  return <ComingSoon title="Gestión" />
+  return <UsuarioForm />
 }
 
 export default GestionPage
