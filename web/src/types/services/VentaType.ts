@@ -5,6 +5,12 @@ export interface VentaRequestType {
   idTipoCobro: string
 }
 
+export interface UsuarioVentaType {
+  id: string
+  nombre: string
+  apellido: string
+}
+
 export interface VentaType {
   id: string
   producto: string
@@ -12,6 +18,7 @@ export interface VentaType {
   cantidad: number
   total: number
   idTipoCobro: string
+  usuario: UsuarioVentaType
 }
 
 export interface VentaHistorialType {
@@ -21,6 +28,7 @@ export interface VentaHistorialType {
   tipoCobro: string
   fechaHora: string
   idAnulada: string | null
+  usuario: UsuarioVentaType
 }
 
 export interface VentaHistorialPageType {

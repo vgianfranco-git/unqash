@@ -57,6 +57,7 @@ function ListadoCargas({ refreshKey }: ListadoCargasProps) {
             producto={venta.producto}
             fecha={venta.fechaHora}
             tipoCobro={venta.tipoCobro}
+            usuario={venta.usuario}
             monto={Math.abs(venta.monto)}
             tipo={venta.monto < 0 ? 'anulacion' : 'ingreso'}
             puedeAnular={venta.monto > 0 && venta.idAnulada === null}
