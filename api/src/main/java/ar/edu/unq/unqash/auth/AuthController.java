@@ -3,6 +3,7 @@ package ar.edu.unq.unqash.auth;
 import ar.edu.unq.unqash.usuario.UsuarioResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,5 +30,11 @@ public class AuthController {
     @GetMapping("/sesion")
     public ResponseEntity<UsuarioResponse> recuperarSesion(HttpServletRequest httpRequest) {
         return ResponseEntity.ok(authService.recuperarSesion(httpRequest));
+    }
+
+    @DeleteMapping("/sesion")
+    public ResponseEntity<Void> cerrarSesion(HttpServletRequest httpRequest) {
+        authService.cerrarSesion(httpRequest);
+        return ResponseEntity.noContent().build();
     }
 }
