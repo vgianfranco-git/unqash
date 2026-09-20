@@ -5,6 +5,7 @@ import type { UsuarioType } from '../types/services/UsuarioType'
 interface AuthHttpClient {
   post: <T>(ruta: string, cuerpo: AuthRequestType) => Promise<{ data: T }>
   get: <T>(ruta: string) => Promise<{ data: T }>
+  delete: (ruta: string) => Promise<unknown>
 }
 
 export function createAuthService(client: AuthHttpClient) {
@@ -16,6 +17,9 @@ export function createAuthService(client: AuthHttpClient) {
     recuperarSesion: async (): Promise<UsuarioType> => {
       const { data } = await client.get<UsuarioType>('/auth/sesion')
       return data
+    },
+    cerrarSesion: async (): Promise<void> => {
+      await client.delete('/auth/sesion')
     },
   }
 }

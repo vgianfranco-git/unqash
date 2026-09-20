@@ -33,6 +33,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const usuarioAutenticado = await authService.iniciarSesion(credenciales)
       setUsuario(usuarioAutenticado)
     },
+    cerrarSesion: async () => {
+      await authService.cerrarSesion()
+      setUsuario(null)
+    },
   }), [cargandoSesion, usuario])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

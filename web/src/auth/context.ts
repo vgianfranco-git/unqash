@@ -6,6 +6,7 @@ export interface AuthContextValue {
   usuario: UsuarioType | null
   cargandoSesion: boolean
   iniciarSesion: (credenciales: AuthRequestType) => Promise<void>
+  cerrarSesion: () => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined)

@@ -1,6 +1,9 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/unqash_logo_hq_verde.png'
+import { useAuth } from '../../auth/useAuth'
 import NavItem from '../ui/NavItem'
-// import LogoutButton from '../ui/LogoutButton'
+import LogoutButton from '../ui/LogoutButton'
 import type { NavTab } from '../../types/layout/NavTab'
 
 // Tabs habilitadas. A medida que se implementen nuevas pantallas, se agregan
@@ -12,6 +15,20 @@ const NAV_TABS: NavTab[] = [
 ]
 
 function Header() {
+  const navigate = useNavigate()
+  const { cerrarSesion } = useAuth()
+  const [cerrandoSesion, setCerrandoSesion] = useState(false)
+
+  const handleCerrarSesion = async () => {
+    setCerrandoSesion(true)
+    try {
+      await cerrarSesion()
+      navigate('/login', { replace: true })
+    } finally {
+      setCerrandoSesion(false)
+    }
+  }
+
   return (
     <header className="grid grid-cols-3 items-center border-b border-green-light bg-white px-8 py-4">
       <div className="flex items-center gap-2">
@@ -25,10 +42,9 @@ function Header() {
         ))}
       </nav>
 
-      {/* Bloque de usuario/auth: sin auth en este sprint, se agrega más adelante.
-      <LogoutButton />
-      */}
-      <div />
+      <div className="justify-self-end">
+        <LogoutButton disabled={cerrandoSesion} onClick={handleCerrarSesion} />
+      </div>
     </header>
   )
 }
