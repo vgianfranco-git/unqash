@@ -48,3 +48,18 @@ test('recupera la sesión activa desde el endpoint correspondiente', async () =>
   assert.deepEqual(resultado, usuario)
   assert.deepEqual(solicitudes, [{ metodo: 'GET', ruta: '/auth/sesion' }])
 })
+
+test('invalida la sesión activa mediante el endpoint de logout', async () => {
+  const solicitudes = []
+  const authService = createAuthService({
+    post: async () => ({ data: usuario }),
+    get: async () => ({ data: usuario }),
+    delete: async (ruta) => {
+      solicitudes.push({ metodo: 'DELETE', ruta })
+    },
+  })
+
+  await authService.cerrarSesion()
+
+  assert.deepEqual(solicitudes, [{ metodo: 'DELETE', ruta: '/auth/sesion' }])
+})
