@@ -40,6 +40,10 @@ public class AuthService {
     }
 
     public UsuarioResponse recuperarSesion(HttpServletRequest httpRequest) {
+        return UsuarioResponse.desdeModelo(recuperarUsuarioAutenticado(httpRequest));
+    }
+
+    public UsuarioEntity recuperarUsuarioAutenticado(HttpServletRequest httpRequest) {
         HttpSession sesion = httpRequest.getSession(false);
         if (sesion == null) {
             throw new SesionInactivaException();
@@ -51,9 +55,8 @@ public class AuthService {
                 throw new SesionInactivaException();
             }
 
-            UsuarioEntity usuario = usuarioRepository.findById(UUID.fromString(id))
+            return usuarioRepository.findById(UUID.fromString(id))
                     .orElseThrow(SesionInactivaException::new);
-            return UsuarioResponse.desdeModelo(usuario);
         } catch (IllegalArgumentException | IllegalStateException exception) {
             throw new SesionInactivaException();
         }

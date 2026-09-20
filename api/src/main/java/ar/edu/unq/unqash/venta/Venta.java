@@ -9,6 +9,7 @@ public record Venta(
         BigDecimal monto,
         Integer cantidad,
         BigDecimal total,
-        UUID idTipoCobro
+        UUID idTipoCobro,
+        UsuarioVentaResponse usuario
 ) {
 }

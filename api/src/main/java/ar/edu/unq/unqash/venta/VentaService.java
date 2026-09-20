@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import ar.edu.unq.unqash.persistencia.TipoCobro;
 import ar.edu.unq.unqash.persistencia.TipoCobroRepository;
+import ar.edu.unq.unqash.persistencia.UsuarioEntity;
 import ar.edu.unq.unqash.persistencia.VentaEntity;
 import ar.edu.unq.unqash.persistencia.VentaRepository;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class VentaService {
         this.tipoCobroRepository = tipoCobroRepository;
     }
 
-    public Venta registrar(VentaRequest request) {
+    public Venta registrar(VentaRequest request, UsuarioEntity usuario) {
         validarCamposObligatorios(request);
         TipoCobro tipoDeCobro = tipoCobroRepository.findById(request.idTipoCobro())
                 .orElseThrow(() -> new IllegalArgumentException("tipo de cobro inexistente"));
@@ -36,7 +37,8 @@ public class VentaService {
                 request.producto(),
                 request.monto(),
                 request.cantidad(),
-                tipoDeCobro
+                tipoDeCobro,
+                usuario
         ));
 
         return new Venta(
@@ -45,7 +47,8 @@ public class VentaService {
                 request.monto(),
                 request.cantidad(),
                 request.monto(),
-                request.idTipoCobro()
+                request.idTipoCobro(),
+                UsuarioVentaResponse.desdeModelo(usuario)
         );
     }
 
@@ -68,14 +71,14 @@ public class VentaService {
         return ventaRepository.findAll();
     }
 
-    public Page<VentaEntity> recuperarTodasPagina(int page){
+    public Page<VentaEntity> recuperarTodasPagina(int page, UUID usuarioId){
         int pageSize = 3; //limit
         validarCamposPaginacion(page);
 
         Sort sort = Sort.by("fechaHora").descending();
         Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
 
-        return ventaRepository.findAll(pageable);
+        return ventaRepository.findAllByUsuarioId(usuarioId, pageable);
     }
 
     private void validarCamposPaginacion(int page) {
@@ -94,7 +97,8 @@ public class VentaService {
                 venta.getProducto(),
                 venta.getMonto().negate(),
                 venta.getCantidad(),
-                venta.tipoDeCobro()
+                venta.tipoDeCobro(),
+                venta.getUsuario()
         );
 
         ventaRepository.save(ventaAnulada);

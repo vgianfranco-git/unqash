@@ -1,6 +1,9 @@
 package ar.edu.unq.unqash.venta;
 
+import ar.edu.unq.unqash.auth.AuthService;
+import ar.edu.unq.unqash.persistencia.UsuarioEntity;
 import ar.edu.unq.unqash.persistencia.VentaEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -15,14 +18,17 @@ import java.util.stream.Collectors;
 public class VentaController {
 
     private final VentaService ventaService;
+    private final AuthService authService;
 
-    public VentaController(VentaService ventaService) {
+    public VentaController(VentaService ventaService, AuthService authService) {
         this.ventaService = ventaService;
+        this.authService = authService;
     }
 
     @PostMapping
-    public ResponseEntity<Venta> crear(@Valid @RequestBody VentaRequest request) {
-        Venta venta = ventaService.registrar(request);
+    public ResponseEntity<Venta> crear(@Valid @RequestBody VentaRequest request, HttpServletRequest httpRequest) {
+        UsuarioEntity usuario = authService.recuperarUsuarioAutenticado(httpRequest);
+        Venta venta = ventaService.registrar(request, usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(venta);
     }
 
@@ -38,9 +44,11 @@ public class VentaController {
 
     //Paginacion
     @GetMapping()
-    public VentaPageResponse ventasPorPagina(@RequestParam(defaultValue = "1") int page){
+    public VentaPageResponse ventasPorPagina(@RequestParam(defaultValue = "1") int page,
+                                             HttpServletRequest httpRequest){
+        UsuarioEntity usuario = authService.recuperarUsuarioAutenticado(httpRequest);
 
-        Page<VentaEntity> currVentasPage = ventaService.recuperarTodasPagina(page);
+        Page<VentaEntity> currVentasPage = ventaService.recuperarTodasPagina(page, usuario.getId());
 
         return new VentaPageResponse(currVentasPage.stream()
                 .map(VentaResponse::desdeModelo)
