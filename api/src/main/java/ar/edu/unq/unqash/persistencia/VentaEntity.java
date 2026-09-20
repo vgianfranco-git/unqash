@@ -35,6 +35,10 @@ public class VentaEntity {
     @JoinColumn(name = "C_ID_TIPO_COBRO", nullable = false)
     private TipoCobro tipoDeCobro;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "C_ID_USUARIO", nullable = false)
+    private UsuarioEntity usuario;
+
     @Column(name = "FECHAHORA", nullable = false)
     private LocalDateTime fechaHora;
 
@@ -44,12 +48,14 @@ public class VentaEntity {
     protected VentaEntity() {
     }
 
-    public VentaEntity(UUID id, String producto, BigDecimal monto, Integer cantidad, TipoCobro tipoDeCobro) {
+    public VentaEntity(UUID id, String producto, BigDecimal monto, Integer cantidad, TipoCobro tipoDeCobro,
+                       UsuarioEntity usuario) {
         this.id = id;
         this.producto = producto;
         this.monto = monto;
         this.cantidad = cantidad;
         this.tipoDeCobro = tipoDeCobro;
+        this.usuario = usuario;
         fechaHora = LocalDateTime.now();
     }
 
@@ -81,6 +87,10 @@ public class VentaEntity {
 
     public TipoCobro getTipoDeCobro() {
         return tipoDeCobro;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
     }
 
     public LocalDateTime getFechaHora() {

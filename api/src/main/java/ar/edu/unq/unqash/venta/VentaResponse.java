@@ -18,7 +18,8 @@ public record VentaResponse(
         BigDecimal monto,
         String tipoCobro,
         String fechaHora,
-        UUID idAnulada
+        UUID idAnulada,
+        UsuarioVentaResponse usuario
 ) {
 
     public static VentaResponse desdeModelo(VentaEntity v) {
@@ -36,7 +37,8 @@ public record VentaResponse(
                 v.getMonto(),
                 v.tipoDeCobro().descripcion(),
                 fechaHora,
-                v.getVentaAnuladaId()
+                v.getVentaAnuladaId(),
+                UsuarioVentaResponse.desdeModelo(v.getUsuario())
         );
     }
 }
