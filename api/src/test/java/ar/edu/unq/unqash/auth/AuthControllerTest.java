@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -116,6 +117,26 @@ class AuthControllerTest {
     @Test
     void rechazaRecuperarLaSesionCuandoNoHayUnaActiva() throws Exception {
         mockMvc.perform(get("/auth/sesion"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.detail").value("No hay una sesión activa"));
+    }
+
+    @Test
+    void invalidaLaSesionYRechazaLasRequestsPosterioresConEsaCookie() throws Exception {
+        MvcResult resultadoLogin = mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"dni":"40123456","contrasena":"PruebaSegura1!"}
+                                """))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MockHttpSession sesion = (MockHttpSession) resultadoLogin.getRequest().getSession(false);
+
+        mockMvc.perform(delete("/auth/sesion").session(sesion))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/auth/sesion").session(sesion))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.detail").value("No hay una sesión activa"));
     }

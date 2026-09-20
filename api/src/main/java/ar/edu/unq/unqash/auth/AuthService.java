@@ -45,17 +45,24 @@ public class AuthService {
             throw new SesionInactivaException();
         }
 
-        Object usuarioId = sesion.getAttribute(USUARIO_ID_SESSION_KEY);
-        if (!(usuarioId instanceof String id)) {
-            throw new SesionInactivaException();
-        }
-
         try {
+            Object usuarioId = sesion.getAttribute(USUARIO_ID_SESSION_KEY);
+            if (!(usuarioId instanceof String id)) {
+                throw new SesionInactivaException();
+            }
+
             UsuarioEntity usuario = usuarioRepository.findById(UUID.fromString(id))
                     .orElseThrow(SesionInactivaException::new);
             return UsuarioResponse.desdeModelo(usuario);
-        } catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException | IllegalStateException exception) {
             throw new SesionInactivaException();
+        }
+    }
+
+    public void cerrarSesion(HttpServletRequest httpRequest) {
+        HttpSession sesion = httpRequest.getSession(false);
+        if (sesion != null) {
+            sesion.invalidate();
         }
     }
 }
