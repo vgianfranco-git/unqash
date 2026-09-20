@@ -50,7 +50,7 @@ function UsuarioForm() {
   return (
     <Card>
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-800">Alta de usuario</h1>
+        <h1 className="text-xl font-bold text-gray-800">Usuarios</h1>
         <p className="mt-1 text-sm text-gray-500">Completá los datos para crear una nueva cuenta.</p>
       </div>
 
