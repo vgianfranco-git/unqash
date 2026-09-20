@@ -7,6 +7,7 @@ import TextInput from '../ui/TextInput'
 import { validarLogin } from '../../utils/loginValidation'
 import type { AuthFormErrors } from '../../types/forms/AuthFormErrors'
 import type { AuthRequestType } from '../../types/services/AuthType'
+import logo from '../../assets/unqash_logo_hq_verde.png'
 
 const initialForm: AuthRequestType = {
   dni: '',
@@ -45,16 +46,16 @@ function LoginForm() {
 
   return (
     <Card>
-      <div className="mb-6 text-center">
-        <h1 className="text-2xl font-bold text-gray-800">Bienvenido a UNQash</h1>
-        <p className="mt-1 text-sm text-gray-500">Ingresá tus datos para acceder al sistema.</p>
+      <div className="mb-6 flex flex-col items-center text-center">
+        <img src={logo} alt="Logo de UNQash" className="h-20 w-20 object-contain" />
+        <h1 className="mt-2 text-2xl font-bold text-gray-800">UNQash</h1>
       </div>
 
       <form className="flex flex-col gap-4" noValidate onSubmit={handleSubmit}>
         <TextInput
           id="dni"
           label="DNI"
-          placeholder="Ej. 40123456"
+          placeholder="Ej. 12345678"
           inputMode="numeric"
           autoComplete="username"
           maxLength={8}
@@ -67,7 +68,7 @@ function LoginForm() {
         <TextInput
           id="contrasena"
           label="Contraseña"
-          placeholder="Ingresá tu contraseña"
+          placeholder="Escribe tu contraseña"
           type="password"
           autoComplete="current-password"
           maxLength={30}
@@ -79,7 +80,12 @@ function LoginForm() {
 
         {errorGenerico && <p className="text-center text-sm text-red-500" role="alert">{errorGenerico}</p>}
 
-        <Button type="submit" loading={isSubmitting} loadingText="Ingresando...">
+        <Button
+          type="submit"
+          loading={isSubmitting}
+          loadingText="Ingresando..."
+          className="!rounded-full !bg-green-main hover:!bg-green-main"
+        >
           Ingresar
         </Button>
       </form>
