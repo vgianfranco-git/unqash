@@ -10,7 +10,7 @@ import type { NavTab } from '../../types/layout/NavTab'
 // sus entradas y aparecen automáticamente en el nav.
 const NAV_TABS: NavTab[] = [
   { label: 'Ventas', path: '/' },
-  { label: 'Gestión', path: '/gestion' },
+  { label: 'Usuarios', path: '/gestion' },
   // { label: 'Facturas', path: '/facturas' },
 ]
 
