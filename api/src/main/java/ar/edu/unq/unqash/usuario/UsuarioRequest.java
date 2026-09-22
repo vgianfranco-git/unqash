@@ -34,6 +34,13 @@ public record UsuarioRequest(
                 regexp = "^(?=.{10,30}$)(?=.*[A-Z])(?=.*[^A-Za-z0-9]).*$",
                 message = "contraseña debe tener entre 10 y 30 caracteres, una mayúscula y un símbolo"
         )
-        String contrasena
+        String contrasena,
+
+        Boolean esGestor
 ) {
+        public UsuarioRequest {
+                if (esGestor == null){
+                        esGestor = false;
+                }
+        }
 }

@@ -13,7 +13,8 @@ public record UsuarioResponse(
         String email,
         String telefono,
         LocalDateTime fechaHoraAlta,
-        String usuarioDeAlta
+        String usuarioDeAlta,
+        Boolean esGestor
 ) {
     public static UsuarioResponse desdeModelo(UsuarioEntity usuario) {
         return new UsuarioResponse(
@@ -24,7 +25,8 @@ public record UsuarioResponse(
                 usuario.getEmail(),
                 usuario.getTelefono(),
                 usuario.getFechaHoraAlta(),
-                usuario.getUsuarioAlta()
+                usuario.getUsuarioAlta(),
+                usuario.getEsGestor()
         );
     }
 }

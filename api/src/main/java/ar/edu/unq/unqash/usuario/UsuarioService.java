@@ -33,7 +33,8 @@ public class UsuarioService {
                 request.telefono(),
                 passwordEncoder.encode(request.contrasena()),
                 LocalDateTime.now(),
-                USUARIO_ALTA
+                USUARIO_ALTA,
+                request.esGestor()
         );
 
         return UsuarioResponse.desdeModelo(usuarioRepository.save(usuario));
