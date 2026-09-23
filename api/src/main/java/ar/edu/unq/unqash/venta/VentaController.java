@@ -57,6 +57,20 @@ public class VentaController {
 
     }
 
+    @GetMapping("/historial")
+    public VentaPageResponse ventaHistorial(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue =
+            "10")int size){
+
+        Page<VentaEntity> historial = ventaService.recuperarHistorial(page, size);
+
+        return new VentaPageResponse(historial.stream()
+                .map(VentaResponse::desdeModelo)
+                .collect(Collectors.toList()),
+                historial.getPageable().getPageNumber()+1,
+                historial.getTotalPages());
+
+    }
+
     @PostMapping("/{id}/anular")
     public ResponseEntity<VentaResponse> anularVenta(@PathVariable UUID id){ //Cambiar a venta
         VentaEntity ventaAnulada = ventaService.anularVenta(id);
