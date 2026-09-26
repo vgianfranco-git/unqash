@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { Checkbox } from '@headlessui/react'
 import Card from '../ui/Card'
 import TextInput from '../ui/TextInput'
 import Button from '../ui/Button'
@@ -15,6 +16,7 @@ const initialForm: UsuarioRequestType = {
   email: '',
   telefono: '',
   contrasena: '',
+  esGestor: false,
 }
 
 function UsuarioForm() {
@@ -49,10 +51,8 @@ function UsuarioForm() {
 
   return (
     <Card>
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-800">Nuevo usuario</h1>
-        <p className="mt-1 text-sm text-gray-500">Completá los datos para crear una nueva cuenta.</p>
-      </div>
+      <h2 className="mb-4 text-lg font-bold text-gray-800">Nuevo usuario</h2>
+      <p className="mb-4 -mt-3 text-sm text-gray-500">Completá los datos para crear una nueva cuenta.</p>
 
       <form className="flex flex-col gap-4" noValidate onSubmit={handleSubmit}>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -132,6 +132,22 @@ function UsuarioForm() {
           error={errors.contrasena}
           onChange={(event) => setForm({ ...form, contrasena: event.target.value })}
         />
+
+        <label className="flex cursor-pointer items-center gap-2">
+          <Checkbox
+            checked={form.esGestor}
+            disabled={isSubmitting}
+            onChange={(checked) => setForm({ ...form, esGestor: checked })}
+            className="flex h-5 w-5 items-center justify-center rounded border-none bg-green-light focus:outline-none focus:ring-2 focus:ring-green-main disabled:cursor-not-allowed disabled:opacity-60 data-[checked]:bg-green-main"
+          >
+            {form.esGestor && (
+              <svg className="h-3 w-3 text-white" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
+          </Checkbox>
+          <span className="text-sm text-gray-700">Gestor</span>
+        </label>
 
         <Button type="submit" loading={isSubmitting} loadingText="Creando usuario...">
           Crear usuario

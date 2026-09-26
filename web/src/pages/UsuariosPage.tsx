@@ -1,7 +1,7 @@
 import UsuarioForm from '../components/features/UsuarioForm'
 
-function GestionPage() {
+function UsuariosPage() {
   return <UsuarioForm />
 }
 
-export default GestionPage
+export default UsuariosPage
