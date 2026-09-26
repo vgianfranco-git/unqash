@@ -67,8 +67,13 @@ public class VentaService {
         }
     }
 
-    public List<VentaEntity> recuperarTodas() {
-        return ventaRepository.findAll();
+    public  Page<VentaEntity> recuperarHistorial(int page, int size) {
+        validarCamposPaginacion(page);
+
+        Sort sort = Sort.by("fechaHora").descending();
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+
+        return ventaRepository.findAll(pageable);
     }
 
     public Page<VentaEntity> recuperarTodasPagina(int page, UUID usuarioId){

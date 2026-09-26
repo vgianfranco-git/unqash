@@ -40,11 +40,15 @@ public class UsuarioEntity {
     @Column(name = "USUARIO_ALTA", nullable = false, length = 50)
     private String usuarioAlta;
 
+    @Column(name ="B_ES_GESTOR",nullable = false)
+    private Boolean esGestor;
+
     protected UsuarioEntity() {
     }
 
     public UsuarioEntity(UUID id, String apellido, String nombre, String dni, String email, String telefono,
-                         String contrasenaHash, LocalDateTime fechaHoraAlta, String usuarioAlta) {
+                         String contrasenaHash, LocalDateTime fechaHoraAlta, String usuarioAlta,
+                         Boolean esGestor) {
         this.id = id;
         this.apellido = apellido;
         this.nombre = nombre;
@@ -54,6 +58,7 @@ public class UsuarioEntity {
         this.contrasenaHash = contrasenaHash;
         this.fechaHoraAlta = fechaHoraAlta;
         this.usuarioAlta = usuarioAlta;
+        this.esGestor = esGestor;
     }
 
     public UUID getId() {
@@ -91,4 +96,6 @@ public class UsuarioEntity {
     public String getUsuarioAlta() {
         return usuarioAlta;
     }
+
+    public Boolean getEsGestor() { return esGestor; }
 }

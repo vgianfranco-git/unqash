@@ -33,7 +33,8 @@ public class UsuarioService {
                 request.telefono(),
                 passwordEncoder.encode(request.contrasena()),
                 LocalDateTime.now(),
-                USUARIO_ALTA
+                USUARIO_ALTA,
+                request.esGestor()
         );
 
         return UsuarioResponse.desdeModelo(usuarioRepository.save(usuario));
@@ -48,6 +49,12 @@ public class UsuarioService {
         }
         if (usuarioRepository.existsByTelefono(request.telefono())) {
             throw new IllegalArgumentException("teléfono ya registrado");
+        }
+    }
+
+    public void validarGestor(UsuarioEntity usuario){
+        if(!usuario.getEsGestor()){
+            throw new IllegalArgumentException("Usuario sin permisos");
         }
     }
 }
