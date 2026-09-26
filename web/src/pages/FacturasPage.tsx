@@ -1,7 +1,7 @@
-import ComingSoon from '../components/ui/ComingSoon'
+import FacturaForm from '../components/features/FacturaForm'
 
 function FacturasPage() {
-  return <ComingSoon title="Facturas" />
+  return <FacturaForm />
 }
 
 export default FacturasPage

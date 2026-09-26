@@ -3,6 +3,7 @@ import OperacionCard from './OperacionCard'
 import Pagination from '../ui/Pagination'
 import { ventaService } from '../../services/ventaService'
 import { notificationService, handleApiError } from '../../services/notifications'
+import { useAnularVenta } from '../../hooks/useAnularVenta'
 import type { VentaHistorialType } from '../../types/services/VentaType'
 import type { ListadoCargasProps } from '../../types/components/ListadoCargasProps'
 
@@ -11,7 +12,6 @@ function ListadoCargas({ refreshKey }: ListadoCargasProps) {
   const [ventas, setVentas] = useState<VentaHistorialType[]>([])
   const [totalPages, setTotalPages] = useState(1)
   const [cargando, setCargando] = useState(true)
-  const [anulandoId, setAnulandoId] = useState<string | null>(null)
 
   const cargarPagina = () => {
     setCargando(true)
@@ -29,18 +29,7 @@ function ListadoCargas({ refreshKey }: ListadoCargasProps) {
     cargarPagina()
   }, [page, refreshKey])
 
-  const handleAnular = async (id: string) => {
-    setAnulandoId(id)
-    try {
-      await ventaService.anular(id)
-      await cargarPagina()
-      notificationService.success('Operación anulada con éxito.')
-    } catch (error) {
-      notificationService.error(handleApiError(error, 'No se pudo anular la operación.'))
-    } finally {
-      setAnulandoId(null)
-    }
-  }
+  const { anulandoId, anular } = useAnularVenta(cargarPagina)
 
   return (
     <div className="flex flex-col gap-3">
@@ -62,7 +51,7 @@ function ListadoCargas({ refreshKey }: ListadoCargasProps) {
             tipo={venta.monto < 0 ? 'anulacion' : 'ingreso'}
             puedeAnular={venta.monto > 0 && venta.idAnulada === null}
             anulando={anulandoId === venta.id}
-            onAnular={() => handleAnular(venta.id)}
+            onAnular={() => anular(venta.id)}
           />
         ))
       )}

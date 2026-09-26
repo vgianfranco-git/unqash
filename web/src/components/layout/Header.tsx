@@ -11,8 +11,8 @@ import type { NavTab } from '../../types/layout/NavTab'
 const NAV_TABS: NavTab[] = [
   { label: 'Ventas', path: '/' },
   { label: 'Gestión', path: '/gestion', soloGestor: true },
+  { label: 'Facturas', path: '/facturas', soloGestor: true },
   { label: 'Usuarios', path: '/usuarios', soloGestor: true },
-  // { label: 'Facturas', path: '/facturas' },
 ]
 
 function Header() {

@@ -17,11 +17,11 @@ export const router = createBrowserRouter([
         element: <MainLayout />,
         children: [
           { index: true, element: <HomePage /> },
-          { path: 'facturas', element: <FacturasPage /> },
           {
             element: <GestorRoute />,
             children: [
               { path: 'gestion', element: <GestionPage /> },
+              { path: 'facturas', element: <FacturasPage /> },
               { path: 'usuarios', element: <UsuariosPage /> },
             ],
           },
