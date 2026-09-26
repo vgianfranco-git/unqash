@@ -10,13 +10,13 @@ import type { NavTab } from '../../types/layout/NavTab'
 // sus entradas y aparecen automáticamente en el nav.
 const NAV_TABS: NavTab[] = [
   { label: 'Ventas', path: '/' },
-  { label: 'Usuarios', path: '/gestion' },
+  { label: 'Usuarios', path: '/usuarios', soloGestor: true },
   // { label: 'Facturas', path: '/facturas' },
 ]
 
 function Header() {
   const navigate = useNavigate()
-  const { cerrarSesion } = useAuth()
+  const { usuario, cerrarSesion } = useAuth()
   const [cerrandoSesion, setCerrandoSesion] = useState(false)
 
   const handleCerrarSesion = async () => {
@@ -37,7 +37,7 @@ function Header() {
       </div>
 
       <nav className="flex items-center justify-self-center gap-1 rounded-full bg-green-light p-1">
-        {NAV_TABS.map((tab) => (
+        {NAV_TABS.filter((tab) => !tab.soloGestor || usuario?.esGestor).map((tab) => (
           <NavItem key={tab.path} {...tab} />
         ))}
       </nav>

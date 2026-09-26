@@ -5,6 +5,7 @@ export interface UsuarioRequestType {
   email: string
   telefono: string
   contrasena: string
+  esGestor: boolean
 }
 
 export interface UsuarioType {
@@ -16,4 +17,5 @@ export interface UsuarioType {
   telefono: string
   fechaHoraAlta: string
   usuarioDeAlta: string
+  esGestor: boolean
 }
