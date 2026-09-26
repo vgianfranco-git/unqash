@@ -80,12 +80,7 @@ function LoginForm() {
 
         {errorGenerico && <p className="text-center text-sm text-red-500" role="alert">{errorGenerico}</p>}
 
-        <Button
-          type="submit"
-          loading={isSubmitting}
-          loadingText="Ingresando..."
-          className="!rounded-full !bg-green-main hover:!bg-green-main"
-        >
+        <Button type="submit" loading={isSubmitting} loadingText="Ingresando...">
           Ingresar
         </Button>
       </form>

@@ -8,7 +8,7 @@ function NavItem({ label, path }: NavTab) {
       className={({ isActive }) =>
         `rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
           isActive
-            ? 'bg-white text-green-main shadow-sm'
+            ? 'bg-green-main text-white shadow-sm'
             : 'text-green-main/70 hover:text-green-main'
         }`
       }
