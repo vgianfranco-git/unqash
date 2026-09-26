@@ -3,12 +3,14 @@ package ar.edu.unq.unqash.venta;
 import ar.edu.unq.unqash.auth.AuthService;
 import ar.edu.unq.unqash.persistencia.UsuarioEntity;
 import ar.edu.unq.unqash.persistencia.VentaEntity;
+import ar.edu.unq.unqash.usuario.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -19,10 +21,12 @@ public class VentaController {
 
     private final VentaService ventaService;
     private final AuthService authService;
+    private final UsuarioService usuarioService;
 
-    public VentaController(VentaService ventaService, AuthService authService) {
+    public VentaController(VentaService ventaService, AuthService authService, UsuarioService usuarioService) {
         this.ventaService = ventaService;
         this.authService = authService;
+        this.usuarioService = usuarioService;
     }
 
     @PostMapping
@@ -59,7 +63,10 @@ public class VentaController {
 
     @GetMapping("/historial")
     public VentaPageResponse ventaHistorial(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue =
-            "10")int size){
+            "10")int size,  HttpServletRequest httpRequest){
+
+        usuarioService.validarGestor(authService.recuperarUsuarioAutenticado(httpRequest));
+
 
         Page<VentaEntity> historial = ventaService.recuperarHistorial(page, size);
 

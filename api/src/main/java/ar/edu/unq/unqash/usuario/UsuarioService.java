@@ -51,4 +51,10 @@ public class UsuarioService {
             throw new IllegalArgumentException("teléfono ya registrado");
         }
     }
+
+    public void validarGestor(UsuarioEntity usuario){
+        if(!usuario.getEsGestor()){
+            throw new IllegalArgumentException("Usuario sin permisos");
+        }
+    }
 }
