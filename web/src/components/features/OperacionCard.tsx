@@ -20,14 +20,11 @@ function OperacionCard({ producto, fecha, tipoCobro, usuario, monto, tipo, puede
           <p className="text-sm text-gray-500">
             {fecha} • {tipoCobro}
           </p>
-          <p className="text-sm text-gray-500">
-            Registrada por {usuario.nombre} {usuario.apellido}
-          </p>
         </div>
       </div>
 
       <div className="flex items-center gap-3">
-        <span className={`font-semibold ${esAnulacion ? 'text-red-500' : 'text-green-700'}`}>
+        <span className={`font-semibold ${esAnulacion ? 'text-red-500' : 'text-green-main'}`}>
           {esAnulacion ? '-' : ''}
           {formatCurrency(monto)}
         </span>

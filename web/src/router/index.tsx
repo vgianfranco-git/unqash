@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import ProtectedRoute from '../auth/ProtectedRoute'
 import GestorRoute from '../auth/GestorRoute'
 import MainLayout from '../components/layout/MainLayout'
-import { HomePage, UsuariosPage, FacturasPage, LoginPage } from '../pages'
+import { HomePage, GestionPage, UsuariosPage, FacturasPage, LoginPage } from '../pages'
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +21,7 @@ export const router = createBrowserRouter([
           {
             element: <GestorRoute />,
             children: [
+              { path: 'gestion', element: <GestionPage /> },
               { path: 'usuarios', element: <UsuariosPage /> },
             ],
           },

@@ -10,6 +10,10 @@ export const ventaService = {
     const { data } = await api.get<VentaHistorialPageType>('/ventas', { params: { page } })
     return data
   },
+  listarTodas: async (page: number): Promise<VentaHistorialPageType> => {
+    const { data } = await api.get<VentaHistorialPageType>('/ventas/historial', { params: { page } })
+    return data
+  },
   anular: async (id: string): Promise<VentaHistorialType> => {
     const { data } = await api.post<VentaHistorialType>(`/ventas/${id}/anular`)
     return data
