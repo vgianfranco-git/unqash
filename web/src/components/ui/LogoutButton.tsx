@@ -1,9 +1,5 @@
 import { LogOut } from 'lucide-react'
-
-interface LogoutButtonProps {
-  disabled?: boolean
-  onClick: () => void
-}
+import type { LogoutButtonProps } from '../../types/components/LogoutButtonProps'
 
 function LogoutButton({ disabled = false, onClick }: LogoutButtonProps) {
   return (

@@ -3,6 +3,7 @@ import Card from '../ui/Card'
 import Pagination from '../ui/Pagination'
 import { ventaService } from '../../services/ventaService'
 import { notificationService, handleApiError } from '../../services/notifications'
+import { useAnularVenta } from '../../hooks/useAnularVenta'
 import { formatCurrency } from '../../utils/currency'
 import type { VentaHistorialType } from '../../types/services/VentaType'
 
@@ -13,7 +14,6 @@ function PlanillaVentas() {
   const [ventas, setVentas] = useState<VentaHistorialType[]>([])
   const [totalPages, setTotalPages] = useState(1)
   const [cargando, setCargando] = useState(true)
-  const [anulandoId, setAnulandoId] = useState<string | null>(null)
 
   const cargarPagina = (paginaActual: number) => {
     setCargando(true)
@@ -31,18 +31,7 @@ function PlanillaVentas() {
     cargarPagina(page)
   }, [page])
 
-  const handleAnular = async (id: string) => {
-    setAnulandoId(id)
-    try {
-      await ventaService.anular(id)
-      await cargarPagina(page)
-      notificationService.success('Operación anulada con éxito.')
-    } catch (error) {
-      notificationService.error(handleApiError(error, 'No se pudo anular la operación.'))
-    } finally {
-      setAnulandoId(null)
-    }
-  }
+  const { anulandoId, anular } = useAnularVenta(() => cargarPagina(page))
 
   return (
     <Card>
@@ -101,13 +90,13 @@ function PlanillaVentas() {
                     <td className="px-3 py-3">
                       {esAnulacion ? (
                         <span className="text-gray-400">Anulación</span>
-                      ) : estaAnulada ? (
+                      ) : !puedeAnular ? (
                         <span className="text-gray-400">Anulado</span>
                       ) : (
                         <button
                           type="button"
                           disabled={anulandoId === venta.id}
-                          onClick={() => handleAnular(venta.id)}
+                          onClick={() => anular(venta.id)}
                           className="rounded-full border border-gray-200 px-3 py-1 text-sm text-gray-600 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {anulandoId === venta.id ? 'Anulando...' : 'Anular'}
