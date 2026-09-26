@@ -38,7 +38,7 @@ function PlanillaVentas() {
       <div className="mb-4">
         <h2 className="text-lg font-bold text-gray-800">Planilla de ventas</h2>
         <p className="mt-1 text-sm text-gray-500">
-          Registro fiel del flujo de caja.
+          Registro del flujo de caja.
         </p>
       </div>
 
