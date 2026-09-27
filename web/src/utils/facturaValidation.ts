@@ -15,7 +15,7 @@ export function validarFactura(factura: FacturaRequestType): FacturaFormErrors {
 
   if (!factura.monto || factura.monto <= 0) errores.monto = 'Ingresá un monto válido.'
   else if (factura.monto > MAX_MONTO)
-    errores.monto = `El monto máximo es $${MAX_MONTO.toLocaleString('es-AR')}.`
+    errores.monto = 'El límite de ingreso es máximo de 8 dígitos.'
 
   if (!factura.fecha) errores.fecha = 'Completá la fecha.'
 
