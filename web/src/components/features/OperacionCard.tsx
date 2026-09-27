@@ -2,7 +2,7 @@ import { Minus, Plus } from 'lucide-react'
 import { formatCurrency } from '../../utils/currency'
 import type { OperacionCardProps } from '../../types/components/OperacionCardProps'
 
-function OperacionCard({ producto, fecha, tipoCobro, usuario, monto, tipo, puedeAnular, anulando, onAnular }: OperacionCardProps) {
+function OperacionCard({ producto, fecha, tipoCobro, monto, tipo, puedeAnular, anulando, onAnular }: OperacionCardProps) {
   const esAnulacion = tipo === 'anulacion'
 
   return (

@@ -2,7 +2,7 @@ export interface FacturaRequestType {
   proveedor: string
   monto: number
   fecha: string
-  detalle?: string
+  detalles?: string
 }
 
 export interface FacturaType {
@@ -10,7 +10,7 @@ export interface FacturaType {
   proveedor: string
   monto: number
   fecha: string
-  detalle?: string
-  fechaHoraRegistro: string
-  usuario: string
+  detalles?: string
+  fechaAlta: string
+  usuarioId: string
 }

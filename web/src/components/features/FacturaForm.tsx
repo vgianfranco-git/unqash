@@ -5,7 +5,7 @@ import MoneyInput from '../ui/MoneyInput'
 import Button from '../ui/Button'
 import { facturaService } from '../../services/facturaService'
 import { notificationService, handleApiError } from '../../services/notifications'
-import { validarFactura } from '../../utils/facturaValidation'
+import { validarFactura, formatFechaParaBackend } from '../../utils/facturaValidation'
 import type { FacturaFormErrors } from '../../types/forms/FacturaFormErrors'
 import type { FacturaRequestType } from '../../types/services/FacturaType'
 
@@ -15,7 +15,7 @@ const initialForm: FacturaRequestType = {
   proveedor: '',
   monto: undefined as unknown as number,
   fecha: hoy,
-  detalle: '',
+  detalles: '',
 }
 
 function FacturaForm() {
@@ -33,7 +33,8 @@ function FacturaForm() {
       await facturaService.crear({
         ...form,
         proveedor: form.proveedor.trim(),
-        detalle: form.detalle?.trim() || undefined,
+        fecha: formatFechaParaBackend(form.fecha),
+        detalles: form.detalles?.trim() || undefined,
       })
       notificationService.success('Factura guardada con éxito.')
       setForm(initialForm)
@@ -82,13 +83,13 @@ function FacturaForm() {
         </div>
 
         <TextInput
-          id="detalle"
+          id="detalles"
           label="Detalle (opcional)"
           placeholder="Ej. Bebidas y descartables"
-          value={form.detalle ?? ''}
+          value={form.detalles ?? ''}
           disabled={isSubmitting}
-          error={errors.detalle}
-          onChange={(e) => setForm({ ...form, detalle: e.target.value })}
+          error={errors.detalles}
+          onChange={(e) => setForm({ ...form, detalles: e.target.value })}
         />
       </div>
 

@@ -1,4 +1,4 @@
-import { api } from './api.ts'
+import { api } from './api'
 import type { AuthRequestType } from '../types/services/AuthType'
 import type { UsuarioType } from '../types/services/UsuarioType'
 
