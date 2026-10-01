@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     url: ${UNQASH_DB_URL:jdbc:postgresql://localhost:5432/unqash}
     username: ${UNQASH_DB_USERNAME:unqash}
