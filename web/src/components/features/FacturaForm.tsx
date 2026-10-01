@@ -8,6 +8,7 @@ import { notificationService, handleApiError } from '../../services/notification
 import { validarFactura, formatFechaParaBackend } from '../../utils/facturaValidation'
 import type { FacturaFormErrors } from '../../types/forms/FacturaFormErrors'
 import type { FacturaRequestType } from '../../types/services/FacturaType'
+import type { FacturaFormProps } from '../../types/components/FacturaFormProps'
 
 const hoy = new Date().toISOString().split('T')[0]
 
@@ -18,7 +19,7 @@ const initialForm: FacturaRequestType = {
   detalles: '',
 }
 
-function FacturaForm() {
+function FacturaForm({ onFacturaRegistrada }: FacturaFormProps) {
   const [form, setForm] = useState<FacturaRequestType>(initialForm)
   const [errors, setErrors] = useState<FacturaFormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -39,6 +40,7 @@ function FacturaForm() {
       notificationService.success('Factura guardada con éxito.')
       setForm(initialForm)
       setErrors({})
+      onFacturaRegistrada?.()
     } catch (error) {
       notificationService.error(handleApiError(error, 'No se pudo guardar la factura.'))
     } finally {
