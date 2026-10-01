@@ -5,7 +5,16 @@ const MAX_MONTO = 99_999_999
 const MAX_PROVEEDOR = 100
 const MAX_DETALLES = 200
 
-export function validarFactura(factura: FacturaRequestType): FacturaFormErrors {
+/** Se valida por MIME type para aceptar también variantes como .jfif, que el navegador reporta como image/jpeg */
+const TIPOS_ARCHIVO_PERMITIDOS = ['image/jpeg', 'image/png', 'application/pdf']
+export const ACCEPT_ARCHIVO_FACTURA = '.jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf'
+
+export function validarArchivoFactura(archivo: File | null): string | undefined {
+  if (archivo && !TIPOS_ARCHIVO_PERMITIDOS.includes(archivo.type))
+    return 'Formato no permitido. Solo se aceptan archivos JPG, JPEG, PNG o PDF.'
+}
+
+export function validarFactura(factura: FacturaRequestType, archivo: File | null = null): FacturaFormErrors {
   const errores: FacturaFormErrors = {}
   const proveedor = factura.proveedor.trim()
 
@@ -22,6 +31,9 @@ export function validarFactura(factura: FacturaRequestType): FacturaFormErrors {
   const detalles = factura.detalles?.trim()
   if (detalles && detalles.length > MAX_DETALLES)
     errores.detalles = `El detalle debe tener como máximo ${MAX_DETALLES} caracteres.`
+
+  const errorArchivo = validarArchivoFactura(archivo)
+  if (errorArchivo) errores.archivo = errorArchivo
 
   return errores
 }

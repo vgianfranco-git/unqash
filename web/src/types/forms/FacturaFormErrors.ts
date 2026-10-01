@@ -3,4 +3,5 @@ export interface FacturaFormErrors {
   monto?: string
   fecha?: string
   detalles?: string
+  archivo?: string
 }
