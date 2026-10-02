@@ -1,4 +1,3 @@
-import type { UsuarioVentaType } from './VentaType'
 
 export interface FacturaRequestType {
   proveedor: string
@@ -22,9 +21,8 @@ export interface FacturaHistorialType {
   proveedor: string
   monto: number
   fecha: string
-  detalles: string | null
-  fechaAlta: string
-  usuario: UsuarioVentaType
+  detalle: string | null
+  usuarioCarga: string
 }
 
 export interface FacturaHistorialPageType {
