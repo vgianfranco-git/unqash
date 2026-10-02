@@ -13,10 +13,11 @@ public record FacturaHistorialResponse(
         BigDecimal monto,
         LocalDate fecha,
         String detalle,
-        String usuarioCarga
+        String usuarioCarga,
+        boolean tieneFoto
 ) {
 
-    public static FacturaHistorialResponse desdeModelo(FacturaEntity factura) {
+    public static FacturaHistorialResponse desdeModelo(FacturaEntity factura, boolean tieneFoto) {
         UsuarioEntity usuario = factura.getUsuario();
         return new FacturaHistorialResponse(
                 factura.getId(),
@@ -24,7 +25,8 @@ public record FacturaHistorialResponse(
                 factura.getMonto(),
                 factura.getFechaFactura(),
                 factura.getDetalle(),
-                usuario.getNombre() + " " + usuario.getApellido()
+                usuario.getNombre() + " " + usuario.getApellido(),
+                tieneFoto
         );
     }
 }

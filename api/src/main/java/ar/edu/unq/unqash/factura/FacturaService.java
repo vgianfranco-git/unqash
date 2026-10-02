@@ -114,6 +114,15 @@ public class FacturaService {
         }
     }
 
+    public FacturaFotoEntity obtenerFoto(UUID facturaId) {
+        return facturaFotoRepository.findByFactura_Id(facturaId)
+                .orElseThrow(() -> new IllegalArgumentException("la factura no tiene una foto asociada"));
+    }
+
+    public boolean tieneFotoAsociada(UUID facturaId) {
+        return facturaFotoRepository.existsByFactura_Id(facturaId);
+    }
+
     private void validarDatosFactura(FacturaRequest requestF) {
         if(requestF.proveedor() == null || requestF.proveedor().isBlank()) {
             throw new IllegalArgumentException("proveedor obligatorio");
