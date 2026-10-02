@@ -5,6 +5,10 @@ import ar.edu.unq.unqash.persistencia.FacturaFotoEntity;
 import ar.edu.unq.unqash.persistencia.FacturaFotoRepository;
 import ar.edu.unq.unqash.persistencia.FacturaRepository;
 import ar.edu.unq.unqash.persistencia.UsuarioEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -92,6 +96,22 @@ public class FacturaService {
             return "";
         }
         return nombreArchivo.substring(nombreArchivo.lastIndexOf('.') + 1).toLowerCase(Locale.ROOT);
+    }
+
+    public Page<FacturaEntity> recuperarHistorial(int page) {
+        int pageSize = 3;
+        validarCamposPaginacion(page);
+
+        Sort sort = Sort.by("fechaHotaAlta").descending();
+        Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
+
+        return facturaRepository.findAll(pageable);
+    }
+
+    private void validarCamposPaginacion(int page) {
+        if (page < 1) {
+            throw new IllegalArgumentException("El número de página debe ser mayor a 0.");
+        }
     }
 
     private void validarDatosFactura(FacturaRequest requestF) {
