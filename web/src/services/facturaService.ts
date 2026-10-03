@@ -8,7 +8,13 @@ import type {
 
 function buildFacturaFormData(factura: FacturaRequestType, archivo: File | null, quitarFoto?: boolean): FormData {
   const formData = new FormData()
-  formData.append('factura', new Blob([JSON.stringify(factura)], { type: 'application/json' }))
+  // El backend bindea FacturaRequest con @ModelAttribute: espera cada campo
+  // suelto en el multipart (proveedor, monto, fecha, detalles), NO un blob
+  // JSON anidado bajo una clave "factura" (eso solo funciona con @RequestPart).
+  formData.append('proveedor', factura.proveedor)
+  formData.append('monto', String(factura.monto))
+  formData.append('fecha', factura.fecha)
+  if (factura.detalles) formData.append('detalles', factura.detalles)
   // El backend espera el parámetro "foto" (antes se mandaba como "archivo" y nunca llegaba).
   if (archivo) formData.append('foto', archivo)
   if (quitarFoto) formData.append('quitarFoto', 'true')
