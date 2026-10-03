@@ -1,4 +1,3 @@
-
 export interface FacturaRequestType {
   proveedor: string
   monto: number
@@ -23,10 +22,23 @@ export interface FacturaHistorialType {
   fecha: string
   detalle: string | null
   usuarioCarga: string
+  tieneFoto: boolean
 }
 
 export interface FacturaHistorialPageType {
   facturas: FacturaHistorialType[]
   numPag: number
   totalPag: number
+}
+
+export interface FacturaDetalleType {
+  id: string
+  proveedor: string
+  monto: number
+  fecha: string
+  detalle: string | null
+  usuarioCarga: string
+  fechaAlta: string
+  tieneFoto: boolean
+  nombreArchivoFoto: string | null
 }

@@ -4,7 +4,9 @@ export interface FileDropzoneProps {
   accept: string
   hint: string
   file: File | null
+  existingFileName?: string | null
   error?: string
   disabled?: boolean
   onFileChange: (file: File | null) => void
+  onRemoveExisting?: () => void
 }
