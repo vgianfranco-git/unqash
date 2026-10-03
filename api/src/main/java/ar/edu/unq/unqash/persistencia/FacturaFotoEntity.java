@@ -73,4 +73,12 @@ public class FacturaFotoEntity {
     public LocalDateTime getFechaHoraAlta() {
         return fechaHoraAlta;
     }
+
+    public void actualizarContenido(String nombreArchivo, String tipoContenido, byte[] contenido) {
+        this.nombreArchivo = nombreArchivo;
+        this.tipoContenido = tipoContenido;
+        this.contenido = contenido;
+        this.tamanioBytes = (long) contenido.length;
+        this.fechaHoraAlta = LocalDateTime.now();
+    }
 }

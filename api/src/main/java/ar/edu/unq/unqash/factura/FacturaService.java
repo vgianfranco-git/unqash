@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -52,7 +53,7 @@ public class FacturaService {
             try {
                 contenidoFoto = foto.getBytes();
             } catch (IOException excepcion) {
-                throw new IllegalArgumentException("no se pudo leer el archivo adjunto");
+                throw new IllegalArgumentException("No se pudo leer el archivo adjunto.");
             }
         }
 
@@ -86,7 +87,7 @@ public class FacturaService {
         String extension = extraerExtension(foto.getOriginalFilename());
         String tipoContenido = TIPOS_CONTENIDO_FOTO_PERMITIDOS.get(extension);
         if (tipoContenido == null) {
-            throw new IllegalArgumentException("formato de archivo no soportado: se aceptan JPG, JPEG, PNG o PDF");
+            throw new IllegalArgumentException("Formato no soportado: Se aceptan JPG, JPEG, PNG o PDF.");
         }
         return tipoContenido;
     }
@@ -116,25 +117,59 @@ public class FacturaService {
 
     public FacturaFotoEntity obtenerFoto(UUID facturaId) {
         return facturaFotoRepository.findByFactura_Id(facturaId)
-                .orElseThrow(() -> new IllegalArgumentException("la factura no tiene una foto asociada"));
+                .orElseThrow(() -> new IllegalArgumentException("La factura no tiene una foto asociada."));
     }
 
     public boolean tieneFotoAsociada(UUID facturaId) {
         return facturaFotoRepository.existsByFactura_Id(facturaId);
     }
 
+    @Transactional
+    public void actualizarFoto(UUID facturaId, MultipartFile foto) {
+        FacturaEntity factura = facturaRepository.findById(facturaId)
+                .orElseThrow(() -> new IllegalArgumentException("Factura inexistente."));
+
+        Optional<FacturaFotoEntity> fotoExistente = facturaFotoRepository.findByFactura_Id(facturaId);
+
+        if (foto == null || foto.isEmpty()) {
+            fotoExistente.ifPresent(facturaFotoRepository::delete);
+            return;
+        }
+
+        String tipoContenido = resolverTipoContenidoFoto(foto);
+        byte[] contenido;
+        try {
+            contenido = foto.getBytes();
+        } catch (IOException excepcion) {
+            throw new IllegalArgumentException("No se pudo leer el archivo adjunto.");
+        }
+
+        if (fotoExistente.isPresent()) {
+            fotoExistente.get().actualizarContenido(foto.getOriginalFilename(), tipoContenido, contenido);
+            facturaFotoRepository.save(fotoExistente.get());
+        } else {
+            facturaFotoRepository.save(new FacturaFotoEntity(
+                    UUID.randomUUID(),
+                    factura,
+                    foto.getOriginalFilename(),
+                    tipoContenido,
+                    contenido
+            ));
+        }
+    }
+
     private void validarDatosFactura(FacturaRequest requestF) {
         if(requestF.proveedor() == null || requestF.proveedor().isBlank()) {
-            throw new IllegalArgumentException("proveedor obligatorio");
+            throw new IllegalArgumentException("Proveedor obligatorio.");
         }
         if(requestF.monto() == null) {
-            throw new IllegalArgumentException("monto obligatorio");
+            throw new IllegalArgumentException("Monto obligatorio.");
         }
         if(requestF.fecha() == null) {
-            throw new IllegalArgumentException("fecha obligatorio");
+            throw new IllegalArgumentException("Fecha obligatorio.");
         }
         if(requestF.detalles() != null && requestF.detalles().isBlank()) {
-            throw new IllegalArgumentException("detalle debe tener al menos un caracter");
+            throw new IllegalArgumentException("Detalle debe tener al menos un caracter.");
         }
     }
 }

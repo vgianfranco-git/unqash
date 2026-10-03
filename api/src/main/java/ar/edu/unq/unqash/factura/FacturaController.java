@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,5 +81,17 @@ public class FacturaController {
                 .contentType(MediaType.parseMediaType(foto.getTipoContenido()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + foto.getNombreArchivo() + "\"")
                 .body(foto.getContenido());
+    }
+
+    @PutMapping("/{facturaId}/foto")
+    public ResponseEntity<Void> actualizarFoto(@PathVariable UUID facturaId,
+                                                @RequestParam(value = "foto", required = false) MultipartFile foto,
+                                                HttpServletRequest httpRequest){
+
+        usuarioService.validarGestor(authService.recuperarUsuarioAutenticado(httpRequest));
+
+        facturaService.actualizarFoto(facturaId, foto);
+
+        return ResponseEntity.ok().build();
     }
 }
