@@ -36,6 +36,13 @@ public class FacturaEntity {
     @JoinColumn(name = "C_ID_USUARIO_ALTA", nullable = false)
     private UsuarioEntity usuario;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "C_ID_USUARIO_MODIFICACION", nullable = true)
+    private UsuarioEntity usuarioModificacion;
+
+    @Column(name = "FE_FECHA_HORA_MODIFICACION", nullable = true)
+    private LocalDateTime fechaHoraModificacion;
+
     protected FacturaEntity(){}
 
     public FacturaEntity(UUID id, String proveedor, BigDecimal monto, LocalDate fechaFactura, String detalle,
@@ -75,5 +82,23 @@ public class FacturaEntity {
 
     public UsuarioEntity getUsuario() {
         return usuario;
+    }
+
+    public UsuarioEntity getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public LocalDateTime getFechaHoraModificacion() {
+        return fechaHoraModificacion;
+    }
+
+    public void actualizarDatos(String proveedor, BigDecimal monto, LocalDate fechaFactura, String detalle,
+                                 UsuarioEntity usuarioModificacion) {
+        this.proveedor = proveedor;
+        this.monto = monto;
+        this.fechaFactura = fechaFactura;
+        this.detalle = detalle;
+        this.usuarioModificacion = usuarioModificacion;
+        this.fechaHoraModificacion = LocalDateTime.now();
     }
 }

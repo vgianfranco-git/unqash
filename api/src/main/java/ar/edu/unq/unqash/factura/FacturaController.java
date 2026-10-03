@@ -70,6 +70,34 @@ public class FacturaController {
         );
     }
 
+    @GetMapping("/{facturaId}")
+    public FacturaDetalleResponse obtenerFactura(@PathVariable UUID facturaId, HttpServletRequest httpRequest){
+
+        usuarioService.validarGestor(authService.recuperarUsuarioAutenticado(httpRequest));
+
+        FacturaEntity factura = facturaService.obtenerFactura(facturaId);
+        String nombreArchivoFoto = facturaService.buscarFotoAsociada(facturaId)
+                .map(FacturaFotoEntity::getNombreArchivo)
+                .orElse(null);
+
+        return FacturaDetalleResponse.desdeModelo(factura, nombreArchivoFoto);
+    }
+
+    @PutMapping(value = "/{facturaId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FacturaResponse> editarFactura(@PathVariable UUID facturaId,
+                                                          @Valid @ModelAttribute FacturaRequest requestF,
+                                                          @RequestParam(value = "foto", required = false) MultipartFile foto,
+                                                          @RequestParam(value = "quitarFoto", defaultValue = "false") boolean quitarFoto,
+                                                          HttpServletRequest httpRequest){
+
+        UsuarioEntity usuario = authService.recuperarUsuarioAutenticado(httpRequest);
+        usuarioService.validarGestor(usuario);
+
+        FacturaEntity factura = facturaService.editarFactura(facturaId, requestF, foto, quitarFoto, usuario);
+
+        return ResponseEntity.ok(FacturaResponse.desdeModelo(factura));
+    }
+
     @GetMapping("/{facturaId}/foto")
     public ResponseEntity<byte[]> obtenerFoto(@PathVariable UUID facturaId, HttpServletRequest httpRequest){
 
@@ -81,17 +109,5 @@ public class FacturaController {
                 .contentType(MediaType.parseMediaType(foto.getTipoContenido()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + foto.getNombreArchivo() + "\"")
                 .body(foto.getContenido());
-    }
-
-    @PutMapping("/{facturaId}/foto")
-    public ResponseEntity<Void> actualizarFoto(@PathVariable UUID facturaId,
-                                                @RequestParam(value = "foto", required = false) MultipartFile foto,
-                                                HttpServletRequest httpRequest){
-
-        usuarioService.validarGestor(authService.recuperarUsuarioAutenticado(httpRequest));
-
-        facturaService.actualizarFoto(facturaId, foto);
-
-        return ResponseEntity.ok().build();
     }
 }
