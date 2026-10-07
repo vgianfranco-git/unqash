@@ -29,7 +29,7 @@ function Modal({ title, subtitle, widthClassName, closeOnBackdropClick = true, o
           <X size={16} />
         </button>
 
-        <h2 className="mb-1 pr-8 text-lg font-bold text-gray-800">{title}</h2>
+        {title && <h2 className="mb-1 pr-8 text-lg font-bold text-gray-800">{title}</h2>}
         {subtitle && <p className="mb-4 text-sm text-gray-500">{subtitle}</p>}
 
         {children}

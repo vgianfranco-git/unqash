@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 export interface ModalProps {
-  title: string
+  title?: string
   subtitle?: string
   widthClassName?: string
   closeOnBackdropClick?: boolean

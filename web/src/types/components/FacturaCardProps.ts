@@ -8,4 +8,5 @@ export interface FacturaCardProps {
   tieneFoto: boolean
   onEditar: (id: string) => void
   onVerFoto: (id: string) => void
+  onAnular: (id: string) => void
 }
