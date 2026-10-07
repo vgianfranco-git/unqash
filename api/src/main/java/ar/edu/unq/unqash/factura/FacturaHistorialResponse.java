@@ -14,7 +14,8 @@ public record FacturaHistorialResponse(
         LocalDate fecha,
         String detalle,
         String usuarioCarga,
-        boolean tieneFoto
+        boolean tieneFoto,
+        String estado
 ) {
 
     public static FacturaHistorialResponse desdeModelo(FacturaEntity factura, boolean tieneFoto) {
@@ -26,7 +27,8 @@ public record FacturaHistorialResponse(
                 factura.getFechaFactura(),
                 factura.getDetalle(),
                 usuario.getNombre() + " " + usuario.getApellido(),
-                tieneFoto
+                tieneFoto,
+                factura.getEstado()
         );
     }
 }

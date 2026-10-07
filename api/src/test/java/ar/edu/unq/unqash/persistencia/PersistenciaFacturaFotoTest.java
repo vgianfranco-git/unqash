@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(properties = {
         "spring.flyway.enabled=false",
         "spring.jpa.hibernate.ddl-auto=create-drop",
-        "spring.datasource.url=jdbc:h2:mem:unqash;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
+        "spring.datasource.url=jdbc:h2:mem:persistencia_factura_foto;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
         "spring.datasource.username=sa",
         "spring.datasource.password="
 })

@@ -13,5 +13,11 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, UUID> {
 
     boolean existsByTelefono(String telefono);
 
+    boolean existsByDniAndIdNot(String dni, UUID id);
+
+    boolean existsByEmailAndIdNot(String email, UUID id);
+
+    boolean existsByTelefonoAndIdNot(String telefono, UUID id);
+
     Optional<UsuarioEntity> findByDni(String dni);
 }

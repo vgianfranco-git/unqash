@@ -5,6 +5,7 @@ import ar.edu.unq.unqash.persistencia.FacturaFotoEntity;
 import ar.edu.unq.unqash.persistencia.FacturaFotoRepository;
 import ar.edu.unq.unqash.persistencia.FacturaRepository;
 import ar.edu.unq.unqash.persistencia.UsuarioEntity;
+import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,10 +34,13 @@ public class FacturaService {
 
     private final FacturaRepository facturaRepository;
     private final FacturaFotoRepository facturaFotoRepository;
+    private final EntityManager entityManager;
 
-    public FacturaService(FacturaRepository facturaRepository, FacturaFotoRepository facturaFotoRepository) {
+    public FacturaService(FacturaRepository facturaRepository, FacturaFotoRepository facturaFotoRepository,
+                          EntityManager entityManager) {
         this.facturaRepository = facturaRepository;
         this.facturaFotoRepository = facturaFotoRepository;
+        this.entityManager = entityManager;
     }
 
     @Transactional
@@ -120,6 +124,15 @@ public class FacturaService {
                 .orElseThrow(() -> new IllegalArgumentException("Factura inexistente."));
     }
 
+    @Transactional
+    public FacturaEntity anularFactura(UUID facturaId) {
+        if (facturaRepository.anularSiActiva(facturaId) == 0) {
+            obtenerFactura(facturaId);
+            throw new IllegalArgumentException("La factura ya está anulada.");
+        }
+        return obtenerFactura(facturaId);
+    }
+
     public FacturaFotoEntity obtenerFoto(UUID facturaId) {
         return facturaFotoRepository.findByFactura_Id(facturaId)
                 .orElseThrow(() -> new IllegalArgumentException("La factura no tiene una foto asociada."));
@@ -178,6 +191,8 @@ public class FacturaService {
             facturaFotoRepository.findByFactura_Id(facturaId).ifPresent(facturaFotoRepository::delete);
         }
 
+        entityManager.flush();
+        entityManager.refresh(factura);
         return factura;
     }
 

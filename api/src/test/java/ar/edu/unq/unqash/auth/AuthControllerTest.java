@@ -54,7 +54,8 @@ class AuthControllerTest {
                 "1112345678",
                 new BCryptPasswordEncoder().encode(CONTRASENA),
                 LocalDateTime.of(2026, 9, 19, 10, 0),
-                "SUPER_ADMIN"
+                "SUPER_ADMIN",
+                false
         ));
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }

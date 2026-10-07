@@ -98,6 +98,14 @@ public class FacturaController {
         return ResponseEntity.ok(FacturaResponse.desdeModelo(factura));
     }
 
+    @PutMapping("/{idFactura}/anular")
+    public ResponseEntity<FacturaResponse> anularFactura(@PathVariable UUID idFactura,
+                                                        HttpServletRequest httpRequest) {
+        usuarioService.validarGestor(authService.recuperarUsuarioAutenticado(httpRequest));
+        FacturaEntity factura = facturaService.anularFactura(idFactura);
+        return ResponseEntity.ok(FacturaResponse.desdeModelo(factura));
+    }
+
     @GetMapping("/{facturaId}/foto")
     public ResponseEntity<byte[]> obtenerFoto(@PathVariable UUID facturaId, HttpServletRequest httpRequest){
 

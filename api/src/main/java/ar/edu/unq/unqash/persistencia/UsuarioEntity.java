@@ -4,12 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Version;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "UNQASH_USUARIO")
+@Table(name = "UNQASH_USUARIO", uniqueConstraints = {
+        @UniqueConstraint(name = "unqash_usuario_n_dni_key", columnNames = "N_DNI"),
+        @UniqueConstraint(name = "unqash_usuario_d_email_key", columnNames = "D_EMAIL"),
+        @UniqueConstraint(name = "unqash_usuario_n_telefono_key", columnNames = "N_TELEFONO")
+})
 public class UsuarioEntity {
 
     @Id
@@ -22,13 +28,13 @@ public class UsuarioEntity {
     @Column(name = "D_NOMBRE", nullable = false, length = 50)
     private String nombre;
 
-    @Column(name = "N_DNI", nullable = false, length = 8, unique = true)
+    @Column(name = "N_DNI", nullable = false, length = 8)
     private String dni;
 
-    @Column(name = "D_EMAIL", nullable = false, length = 50, unique = true)
+    @Column(name = "D_EMAIL", nullable = false, length = 50)
     private String email;
 
-    @Column(name = "N_TELEFONO", nullable = false, length = 15, unique = true)
+    @Column(name = "N_TELEFONO", nullable = false, length = 15)
     private String telefono;
 
     @Column(name = "D_CONTRASENA_HASH", nullable = false, length = 255)
@@ -42,6 +48,10 @@ public class UsuarioEntity {
 
     @Column(name ="B_ES_GESTOR",nullable = false)
     private Boolean esGestor;
+
+    @Version
+    @Column(name = "N_VERSION", nullable = false)
+    private Long version;
 
     protected UsuarioEntity() {
     }
@@ -98,4 +108,15 @@ public class UsuarioEntity {
     }
 
     public Boolean getEsGestor() { return esGestor; }
+
+    public void actualizarDatos(String apellido, String nombre, String dni, String email, String telefono,
+                                String contrasenaHash, Boolean esGestor) {
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.dni = dni;
+        this.email = email;
+        this.telefono = telefono;
+        this.contrasenaHash = contrasenaHash;
+        this.esGestor = esGestor;
+    }
 }

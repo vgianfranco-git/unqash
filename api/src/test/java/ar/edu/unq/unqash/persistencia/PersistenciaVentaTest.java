@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(properties = {
         "spring.flyway.enabled=false",
         "spring.jpa.hibernate.ddl-auto=create-drop",
-        "spring.datasource.url=jdbc:h2:mem:unqash;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
+        "spring.datasource.url=jdbc:h2:mem:persistencia_venta;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
         "spring.datasource.username=sa",
         "spring.datasource.password="
 })
@@ -42,7 +42,8 @@ class PersistenciaVentaTest {
                 "1140123456",
                 "hash",
                 LocalDateTime.of(2026, 9, 19, 10, 0),
-                "SUPER_ADMIN"
+                "SUPER_ADMIN",
+                false
         ));
         VentaEntity venta = ventaRepository.save(new VentaEntity(
                 UUID.randomUUID(),
