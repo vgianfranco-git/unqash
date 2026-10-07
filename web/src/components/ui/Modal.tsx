@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { X } from 'lucide-react'
 import type { ModalProps } from '../../types/components/ModalProps'
 
-function Modal({ title, subtitle, widthClassName, onClose, children }: ModalProps) {
+function Modal({ title, subtitle, widthClassName, closeOnBackdropClick = true, onClose, children }: ModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -12,7 +12,10 @@ function Modal({ title, subtitle, widthClassName, onClose, children }: ModalProp
   }, [onClose])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+      onClick={closeOnBackdropClick ? onClose : undefined}
+    >
       <div
         className={`relative max-h-[90vh] w-full overflow-y-auto rounded-2xl bg-white p-6 shadow-xl ${widthClassName ?? 'max-w-lg'}`}
         onClick={(e) => e.stopPropagation()}

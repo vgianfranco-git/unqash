@@ -29,7 +29,7 @@ function VerFotoModal({ facturaId, onClose }: VerFotoModalProps) {
   }, [facturaId])
 
   return (
-    <Modal title="Comprobante de la factura" widthClassName="max-w-2xl" onClose={onClose}>
+    <Modal title="Comprobante de la factura" widthClassName="max-w-2xl" closeOnBackdropClick={false} onClose={onClose}>
       {cargando && <p className="py-10 text-center text-sm text-gray-500">Cargando...</p>}
 
       {!cargando && error && <p className="py-10 text-center text-sm text-red-500">{error}</p>}

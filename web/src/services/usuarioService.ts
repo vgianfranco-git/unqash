@@ -1,5 +1,11 @@
 import { api } from './api'
-import type { UsuarioHistorialPageType, UsuarioHistorialType, UsuarioRequestType, UsuarioType } from '../types/services/UsuarioType'
+import type {
+  UsuarioEditRequestType,
+  UsuarioHistorialPageType,
+  UsuarioHistorialType,
+  UsuarioRequestType,
+  UsuarioType,
+} from '../types/services/UsuarioType'
 
 const TAMANIO_PAGINA = 3
 
@@ -31,5 +37,20 @@ export const usuarioService = {
       numPag: page,
       totalPag,
     }
+  },
+  obtener: async (id: string): Promise<UsuarioHistorialType> => {
+    const usuario = USUARIOS_MOCK.find((u) => u.id === id)
+    if (!usuario) throw new Error('Usuario no encontrado.')
+    return usuario
+  },
+  editar: async (id: string, usuario: UsuarioEditRequestType): Promise<UsuarioHistorialType> => {
+    const encontrado = USUARIOS_MOCK.find((u) => u.id === id)
+    if (!encontrado) throw new Error('Usuario no encontrado.')
+    encontrado.apellido = usuario.apellido
+    encontrado.nombre = usuario.nombre
+    encontrado.dni = usuario.dni
+    encontrado.telefono = usuario.telefono
+    encontrado.email = usuario.email
+    return encontrado
   },
 }

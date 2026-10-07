@@ -34,3 +34,5 @@ export interface UsuarioHistorialPageType {
   numPag: number
   totalPag: number
 }
+
+export type UsuarioEditRequestType = Omit<UsuarioRequestType, 'esGestor'>
