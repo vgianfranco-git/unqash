@@ -95,7 +95,7 @@ function EditarFacturaModal({ facturaId, onClose, onFacturaActualizada }: Editar
   }
 
   return (
-    <Modal title="Editar factura" subtitle={cargando ? undefined : subtitulo} widthClassName="max-w-xl" onClose={onClose}>
+    <Modal title="Editar factura" subtitle={cargando ? undefined : subtitulo} widthClassName="max-w-xl" closeOnBackdropClick={false} onClose={onClose}>
       {cargando && <p className="py-10 text-center text-sm text-gray-500">Cargando...</p>}
 
       {!cargando && errorCarga && <p className="py-10 text-center text-sm text-red-500">{errorCarga}</p>}

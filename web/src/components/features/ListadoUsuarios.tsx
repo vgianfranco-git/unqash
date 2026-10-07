@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import UsuarioCard from './UsuarioCard'
+import EditarUsuarioModal from './EditarUsuarioModal'
 import Pagination from '../ui/Pagination'
 import { usuarioService } from '../../services/usuarioService'
 import { notificationService, handleApiError } from '../../services/notifications'
@@ -11,6 +12,9 @@ function ListadoUsuarios({ refreshKey }: ListadoUsuariosProps) {
   const [usuarios, setUsuarios] = useState<UsuarioHistorialType[]>([])
   const [totalPages, setTotalPages] = useState(1)
   const [cargando, setCargando] = useState(true)
+  const [recargaInterna, setRecargaInterna] = useState(0)
+
+  const [usuarioAEditar, setUsuarioAEditar] = useState<string | null>(null)
 
   useEffect(() => {
     setCargando(true)
@@ -22,7 +26,7 @@ function ListadoUsuarios({ refreshKey }: ListadoUsuariosProps) {
       })
       .catch((error) => notificationService.error(handleApiError(error, 'No se pudo cargar el listado de usuarios.')))
       .finally(() => setCargando(false))
-  }, [page, refreshKey])
+  }, [page, refreshKey, recargaInterna])
 
   return (
     <div className="flex flex-col gap-3">
@@ -36,16 +40,26 @@ function ListadoUsuarios({ refreshKey }: ListadoUsuariosProps) {
         usuarios.map((usuario) => (
           <UsuarioCard
             key={usuario.id}
+            id={usuario.id}
             apellido={usuario.apellido}
             nombre={usuario.nombre}
             dni={usuario.dni}
             telefono={usuario.telefono}
             email={usuario.email}
+            onEditar={setUsuarioAEditar}
           />
         ))
       )}
 
       {totalPages > 1 && <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />}
+
+      {usuarioAEditar && (
+        <EditarUsuarioModal
+          usuarioId={usuarioAEditar}
+          onClose={() => setUsuarioAEditar(null)}
+          onUsuarioActualizado={() => setRecargaInterna((key) => key + 1)}
+        />
+      )}
     </div>
   )
 }
