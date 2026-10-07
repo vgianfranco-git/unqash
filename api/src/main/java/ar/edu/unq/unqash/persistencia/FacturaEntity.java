@@ -29,6 +29,9 @@ public class FacturaEntity {
     @Column(name = "D_DETALLE")
     private String detalle;
 
+    @Column(name = "C_ESTADO", nullable = false, length = 10, updatable = false)
+    private String estado = "ACTIVA";
+
     @Column(name = "FE_FECHA_HORA_ALTA", nullable = false)
     private LocalDateTime fechaHotaAlta;
 
@@ -74,6 +77,10 @@ public class FacturaEntity {
 
     public String getDetalle() {
         return detalle;
+    }
+
+    public String getEstado() {
+        return estado;
     }
 
     public LocalDateTime getFechaHotaAlta() {

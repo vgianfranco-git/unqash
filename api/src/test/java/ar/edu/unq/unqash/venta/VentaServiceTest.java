@@ -57,7 +57,8 @@ class VentaServiceTest {
                 "1140123456",
                 "hash",
                 LocalDateTime.of(2026, 9, 19, 10, 0),
-                "SUPER_ADMIN"
+                "SUPER_ADMIN",
+                false
         ));
     }
 

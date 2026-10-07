@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public record FacturaResponse(UUID id, String proveedor, BigDecimal monto, String detalles, LocalDate fecha,
-                              LocalDateTime fechaAlta, UUID usuarioId) {
+                              LocalDateTime fechaAlta, UUID usuarioId, String estado) {
 
     public static FacturaResponse desdeModelo(FacturaEntity factura) {
         return new FacturaResponse(
@@ -20,7 +20,8 @@ public record FacturaResponse(UUID id, String proveedor, BigDecimal monto, Strin
                 factura.getDetalle(),
                 factura.getFechaFactura(),
                 factura.getFechaHotaAlta(),
-                factura.getUsuario().getId()
+                factura.getUsuario().getId(),
+                factura.getEstado()
         );
     }
 }

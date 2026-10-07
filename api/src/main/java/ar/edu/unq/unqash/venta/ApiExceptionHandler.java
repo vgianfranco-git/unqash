@@ -4,12 +4,19 @@ import ar.edu.unq.unqash.auth.CredencialesInvalidasException;
 import ar.edu.unq.unqash.auth.SesionInactivaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+    public ProblemDetail manejarEdicionConcurrente(ObjectOptimisticLockingFailureException exception) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,
+                "El usuario fue modificado por otra operación. Volvé a intentarlo.");
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ProblemDetail manejarArgumentoInvalido(IllegalArgumentException exception) {

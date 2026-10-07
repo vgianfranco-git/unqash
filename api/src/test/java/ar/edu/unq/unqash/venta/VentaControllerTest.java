@@ -65,7 +65,8 @@ class VentaControllerTest {
                 "1140123456",
                 new BCryptPasswordEncoder().encode(CONTRASENA),
                 LocalDateTime.of(2026, 9, 19, 10, 0),
-                "SUPER_ADMIN"
+                "SUPER_ADMIN",
+                false
         ));
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         sesion = iniciarSesion();

@@ -17,7 +17,8 @@ public record FacturaDetalleResponse(
         String usuarioCarga,
         LocalDateTime fechaAlta,
         boolean tieneFoto,
-        String nombreArchivoFoto
+        String nombreArchivoFoto,
+        String estado
 ) {
 
     public static FacturaDetalleResponse desdeModelo(FacturaEntity factura, String nombreArchivoFoto) {
@@ -31,7 +32,8 @@ public record FacturaDetalleResponse(
                 usuario.getNombre() + " " + usuario.getApellido(),
                 factura.getFechaHotaAlta(),
                 nombreArchivoFoto != null,
-                nombreArchivoFoto
+                nombreArchivoFoto,
+                factura.getEstado()
         );
     }
 }
