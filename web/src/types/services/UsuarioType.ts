@@ -19,3 +19,18 @@ export interface UsuarioType {
   usuarioDeAlta: string
   esGestor: boolean
 }
+
+export interface UsuarioHistorialType {
+  id: string
+  apellido: string
+  nombre: string
+  dni: string
+  telefono: string
+  email: string
+}
+
+export interface UsuarioHistorialPageType {
+  usuarios: UsuarioHistorialType[]
+  numPag: number
+  totalPag: number
+}
