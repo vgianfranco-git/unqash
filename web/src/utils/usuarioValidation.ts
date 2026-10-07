@@ -1,11 +1,11 @@
 import type { UsuarioFormErrors } from '../types/forms/UsuarioFormErrors'
-import type { UsuarioRequestType } from '../types/services/UsuarioType'
+import type { UsuarioEditRequestType, UsuarioRequestType } from '../types/services/UsuarioType'
 
 const SOLO_LETRAS = /^[\p{L} ]+$/u
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const CONTRASENA_VALIDA = /^(?=.{10,30}$)(?=.*[A-Z])(?=.*[^A-Za-z0-9]).*$/
 
-export function validarUsuario(usuario: UsuarioRequestType): UsuarioFormErrors {
+function validarCamposComunes(usuario: { apellido: string; nombre: string; dni: string; email: string; telefono: string }): UsuarioFormErrors {
   const errores: UsuarioFormErrors = {}
   const apellido = usuario.apellido.trim()
   const nombre = usuario.nombre.trim()
@@ -29,8 +29,23 @@ export function validarUsuario(usuario: UsuarioRequestType): UsuarioFormErrors {
   if (!usuario.telefono) errores.telefono = 'Completá el teléfono.'
   else if (!/^\d{8,15}$/.test(usuario.telefono)) errores.telefono = 'El teléfono debe tener entre 8 y 15 dígitos.'
 
+  return errores
+}
+
+export function validarUsuario(usuario: UsuarioRequestType): UsuarioFormErrors {
+  const errores = validarCamposComunes(usuario)
+
   if (!usuario.contrasena) errores.contrasena = 'Completá la contraseña.'
   else if (!CONTRASENA_VALIDA.test(usuario.contrasena))
+    errores.contrasena = 'La contraseña debe tener entre 10 y 30 caracteres, una mayúscula y un símbolo.'
+
+  return errores
+}
+
+export function validarEdicionUsuario(usuario: UsuarioEditRequestType): UsuarioFormErrors {
+  const errores = validarCamposComunes(usuario)
+
+  if (usuario.contrasena && !CONTRASENA_VALIDA.test(usuario.contrasena))
     errores.contrasena = 'La contraseña debe tener entre 10 y 30 caracteres, una mayúscula y un símbolo.'
 
   return errores
