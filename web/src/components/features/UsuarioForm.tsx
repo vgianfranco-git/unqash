@@ -9,6 +9,7 @@ import { notificationService, handleApiError } from '../../services/notification
 import { validarUsuario } from '../../utils/usuarioValidation'
 import type { UsuarioFormErrors } from '../../types/forms/UsuarioFormErrors'
 import type { UsuarioRequestType } from '../../types/services/UsuarioType'
+import type { UsuarioFormProps } from '../../types/components/UsuarioFormProps'
 
 const initialForm: UsuarioRequestType = {
   apellido: '',
@@ -20,7 +21,7 @@ const initialForm: UsuarioRequestType = {
   esGestor: false,
 }
 
-function UsuarioForm() {
+function UsuarioForm({ onUsuarioRegistrado }: UsuarioFormProps) {
   const [form, setForm] = useState<UsuarioRequestType>(initialForm)
   const [errors, setErrors] = useState<UsuarioFormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -43,6 +44,7 @@ function UsuarioForm() {
       notificationService.success('Usuario creado con éxito')
       setForm(initialForm)
       setErrors({})
+      onUsuarioRegistrado?.()
     } catch (error) {
       notificationService.error(handleApiError(error, 'No se pudo crear el usuario.'))
     } finally {
@@ -52,8 +54,7 @@ function UsuarioForm() {
 
   return (
     <Card>
-      <h2 className="mb-4 text-lg font-bold text-gray-800">Nuevo usuario</h2>
-      <p className="mb-4 -mt-3 text-sm text-gray-500">Completá los datos para crear una nueva cuenta.</p>
+      <h2 className="mb-2 text-lg font-bold text-gray-800">Nuevo usuario</h2>
 
       <form className="flex flex-col gap-4" noValidate onSubmit={handleSubmit}>
         <div className="grid gap-4 sm:grid-cols-2">
