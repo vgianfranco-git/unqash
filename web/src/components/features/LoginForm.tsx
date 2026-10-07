@@ -4,6 +4,7 @@ import { useAuth } from '../../auth/useAuth'
 import Button from '../ui/Button'
 import Card from '../ui/Card'
 import TextInput from '../ui/TextInput'
+import PasswordInput from '../ui/PasswordInput'
 import { validarLogin } from '../../utils/loginValidation'
 import type { AuthFormErrors } from '../../types/forms/AuthFormErrors'
 import type { AuthRequestType } from '../../types/services/AuthType'
@@ -65,11 +66,10 @@ function LoginForm() {
           onChange={(event) => setForm({ ...form, dni: event.target.value.replace(/\D/g, '') })}
         />
 
-        <TextInput
+        <PasswordInput
           id="contrasena"
           label="Contraseña"
           placeholder="Escribe tu contraseña"
-          type="password"
           autoComplete="current-password"
           maxLength={30}
           value={form.contrasena}

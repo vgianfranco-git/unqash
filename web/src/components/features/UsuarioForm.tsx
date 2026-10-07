@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Checkbox } from '@headlessui/react'
 import Card from '../ui/Card'
 import TextInput from '../ui/TextInput'
+import PasswordInput from '../ui/PasswordInput'
 import Button from '../ui/Button'
 import { usuarioService } from '../../services/usuarioService'
 import { notificationService, handleApiError } from '../../services/notifications'
@@ -120,11 +121,10 @@ function UsuarioForm() {
           onChange={(event) => setForm({ ...form, email: event.target.value })}
         />
 
-        <TextInput
+        <PasswordInput
           id="contrasena"
           label="Contraseña"
           placeholder="Mínimo 10 caracteres, una mayúscula y un símbolo"
-          type="password"
           autoComplete="new-password"
           maxLength={30}
           value={form.contrasena}
