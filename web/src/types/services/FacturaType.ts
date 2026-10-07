@@ -23,6 +23,7 @@ export interface FacturaHistorialType {
   detalle: string | null
   usuarioCarga: string
   tieneFoto: boolean
+  estado: string
 }
 
 export interface FacturaHistorialPageType {

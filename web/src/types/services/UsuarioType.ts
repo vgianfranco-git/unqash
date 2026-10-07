@@ -27,12 +27,22 @@ export interface UsuarioHistorialType {
   dni: string
   telefono: string
   email: string
+  esGestor: boolean
 }
 
 export interface UsuarioHistorialPageType {
   usuarios: UsuarioHistorialType[]
   numPag: number
   totalPag: number
+  totalRegistros: number
 }
 
-export type UsuarioEditRequestType = Omit<UsuarioRequestType, 'esGestor'>
+export interface UsuarioEditRequestType {
+  apellido: string
+  nombre: string
+  dni: string
+  email: string
+  telefono: string
+  contrasena: string
+  esGestor: boolean
+}

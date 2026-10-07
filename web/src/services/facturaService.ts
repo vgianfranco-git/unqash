@@ -21,10 +21,6 @@ function buildFacturaFormData(factura: FacturaRequestType, archivo: File | null,
   return formData
 }
 
-// Mock temporal: todavía no existe un endpoint de anulación en el backend.
-// Se filtran acá las facturas "anuladas" hasta que el back soporte el estado.
-const idsFacturasAnuladas = new Set<string>()
-
 export const facturaService = {
   crear: async (factura: FacturaRequestType, archivo: File | null = null): Promise<FacturaType> => {
     const { data } = await api.post<FacturaType>('/facturas', buildFacturaFormData(factura, archivo))
@@ -32,10 +28,10 @@ export const facturaService = {
   },
   listar: async (page: number): Promise<FacturaHistorialPageType> => {
     const { data } = await api.get<FacturaHistorialPageType>('/facturas', { params: { page } })
-    return { ...data, facturas: data.facturas.filter((factura) => !idsFacturasAnuladas.has(factura.id)) }
+    return { ...data, facturas: data.facturas.filter((factura) => factura.estado !== 'ANULADA') }
   },
   anular: async (id: string): Promise<void> => {
-    idsFacturasAnuladas.add(id)
+    await api.put(`/facturas/${id}/anular`)
   },
   obtener: async (id: string): Promise<FacturaDetalleType> => {
     const { data } = await api.get<FacturaDetalleType>(`/facturas/${id}`)

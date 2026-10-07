@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react'
+import { Checkbox } from '@headlessui/react'
 import Modal from '../ui/Modal'
 import TextInput from '../ui/TextInput'
 import PasswordInput from '../ui/PasswordInput'
 import Button from '../ui/Button'
 import { usuarioService } from '../../services/usuarioService'
 import { notificationService, handleApiError } from '../../services/notifications'
-import { validarUsuario } from '../../utils/usuarioValidation'
+import { validarEdicionUsuario } from '../../utils/usuarioValidation'
 import type { UsuarioFormErrors } from '../../types/forms/UsuarioFormErrors'
-import type { UsuarioRequestType } from '../../types/services/UsuarioType'
+import type { UsuarioEditRequestType } from '../../types/services/UsuarioType'
 import type { EditarUsuarioModalProps } from '../../types/components/EditarUsuarioModalProps'
 
 function EditarUsuarioModal({ usuarioId, onClose, onUsuarioActualizado }: EditarUsuarioModalProps) {
   const [cargando, setCargando] = useState(true)
   const [errorCarga, setErrorCarga] = useState<string | null>(null)
-  const [form, setForm] = useState<UsuarioRequestType | null>(null)
+  const [form, setForm] = useState<UsuarioEditRequestType | null>(null)
   const [errors, setErrors] = useState<UsuarioFormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -28,7 +29,7 @@ function EditarUsuarioModal({ usuarioId, onClose, onUsuarioActualizado }: Editar
           telefono: usuario.telefono,
           email: usuario.email,
           contrasena: '',
-          esGestor: false,
+          esGestor: usuario.esGestor,
         })
       })
       .catch((err) => setErrorCarga(handleApiError(err, 'No se pudo cargar el usuario.')))
@@ -38,7 +39,7 @@ function EditarUsuarioModal({ usuarioId, onClose, onUsuarioActualizado }: Editar
   const handleSubmit = async () => {
     if (!form) return
 
-    const nuevosErrores = validarUsuario(form)
+    const nuevosErrores = validarEdicionUsuario(form)
     setErrors(nuevosErrores)
     if (Object.keys(nuevosErrores).length > 0) return
 
@@ -51,6 +52,7 @@ function EditarUsuarioModal({ usuarioId, onClose, onUsuarioActualizado }: Editar
         telefono: form.telefono,
         email: form.email.trim(),
         contrasena: form.contrasena,
+        esGestor: form.esGestor,
       })
       notificationService.success('Usuario actualizado con éxito')
       onUsuarioActualizado()
@@ -74,6 +76,7 @@ function EditarUsuarioModal({ usuarioId, onClose, onUsuarioActualizado }: Editar
             <TextInput
               id="editar-apellido"
               label="Apellido"
+              maxLength={50}
               value={form.apellido}
               disabled={isSubmitting}
               error={errors.apellido}
@@ -82,6 +85,7 @@ function EditarUsuarioModal({ usuarioId, onClose, onUsuarioActualizado }: Editar
             <TextInput
               id="editar-nombre"
               label="Nombre"
+              maxLength={50}
               value={form.nombre}
               disabled={isSubmitting}
               error={errors.nombre}
@@ -127,12 +131,29 @@ function EditarUsuarioModal({ usuarioId, onClose, onUsuarioActualizado }: Editar
             id="editar-contrasena"
             label="Contraseña"
             placeholder="Mínimo 10 caracteres, una mayúscula y un símbolo"
+            autoComplete="new-password"
             maxLength={30}
             value={form.contrasena}
             disabled={isSubmitting}
             error={errors.contrasena}
             onChange={(e) => setForm({ ...form, contrasena: e.target.value })}
           />
+
+          <label className="flex cursor-pointer items-center gap-2">
+            <Checkbox
+              checked={form.esGestor}
+              disabled={isSubmitting}
+              onChange={(checked) => setForm({ ...form, esGestor: checked })}
+              className="flex h-5 w-5 items-center justify-center rounded border-none bg-green-light focus:outline-none focus:ring-2 focus:ring-green-main disabled:cursor-not-allowed disabled:opacity-60 data-[checked]:bg-green-main"
+            >
+              {form.esGestor && (
+                <svg className="h-3 w-3 text-white" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </Checkbox>
+            <span className="text-sm text-gray-700">Gestor</span>
+          </label>
 
           <Button loading={isSubmitting} loadingText="Guardando..." onClick={handleSubmit}>
             Guardar cambios
